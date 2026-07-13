@@ -1,6 +1,6 @@
 # Analyze Creator Content
 
-Analyze a creator's accessible posts or videos into an auditable, source-linked content library. The skill extracts content types, formats, hooks, recurring series, calls to action, research claims, and repeated script structures without copying full scripts or imitating the creator's voice.
+Analyze a creator's accessible posts or videos into an auditable, source-linked content library. The skill extracts content types, formats, hooks, recurring series, calls to action, research claims, repeated script structures, visible performance, and creator-relative breakout videos without copying full scripts or imitating the creator's voice.
 
 This repository contains one canonical [Agent Skills](https://agentskills.io/specification) folder that works with Agent Skills-compatible clients. It also includes zero-dependency Python helpers, tests, a deterministic ZIP packager, and installers for Codex and Claude Code.
 
@@ -16,8 +16,10 @@ Pre-release. The deterministic library tooling is covered by automated fixtures.
 - Cross-checks source IDs, URLs, creator, platform, and media type.
 - Aggregates content types, formats, hook types, pillars, calls to action, and repeated script structures.
 - Promotes a repeated script pattern only after at least two source examples.
+- Validates timestamped visible metrics and ranks top accessible videos using one comparable metric.
+- Labels a creator-relative breakout candidate only with at least five comparable videos and a result at least 3x the creator median.
 - Separates observed content, analyst inference, measured counts, and externally verified research.
-- Produces CSV, JSON, a pattern playbook, and a coverage report.
+- Produces CSV, JSON, a pattern playbook, a performance report, and a coverage report.
 
 ## What It Does Not Do
 
@@ -25,6 +27,7 @@ Pre-release. The deterministic library tooling is covered by automated fixtures.
 - It does not ship an Instagram, TikTok, YouTube, LinkedIn, or X scraper.
 - It does not inspect cookies, passwords, browser storage, or session files.
 - It does not guarantee access to every post. Coverage is only complete when the inventory has an explicit, defensible completion basis.
+- It does not prove that a video is universally viral or that a hook, topic, or format caused its reach.
 - It does not republish full transcripts or produce creator-voice imitation.
 
 The host agent supplies authorized browsing, APIs, exports, transcription, OCR, or user-provided links. The bundled scripts validate and summarize the resulting structured records.
@@ -80,11 +83,12 @@ The command creates a reproducible `dist/analyze-creator-content.zip` plus its S
 ## Example Prompt
 
 ```text
-Use analyze-creator-content on this creator profile: <URL>.
-Review every accessible video in scope. Build a source-linked content library and
-extract content types, formats, hooks, recurring series, CTAs, research claims,
-and repeated script structures. Do not claim complete coverage unless the source
-inventory has been reconciled.
+Use Analyze Creator Content on this creator: [profile URL]. Review every accessible
+video and extract content types, hooks, recurring topics, CTAs, reused script
+structures, research claims, visible performance metrics, viral or breakout video
+candidates, and a source-linked content library. Rank top videos using timestamped
+visible metrics and a creator-relative baseline; do not infer virality when metrics
+are unavailable or incomparable.
 ```
 
 For a fixed link set:
@@ -104,6 +108,7 @@ Each run can produce:
 - `content-library.csv`
 - `library-summary.json`
 - `pattern-playbook.md`
+- `performance-report.md`
 - `coverage-report.md`
 - `research-audit.md`, when factual claims need verification
 

@@ -7,9 +7,12 @@ import argparse
 import csv
 import io
 import json
+import re
 from collections import defaultdict
 from pathlib import Path
+from statistics import median
 from typing import Any
+from urllib.parse import quote
 
 from creator_library_common import (
     ACCESSIBLE_STATUSES,
@@ -24,6 +27,7 @@ from creator_library_common import (
     read_jsonl,
     sorted_counts,
     valid_http_url,
+    valid_iso_timestamp,
     validate_inventory,
     validate_run,
     word_count,
@@ -94,6 +98,10 @@ FORBIDDEN_DURABLE_FIELDS = {
     "session",
     "transcript",
 }
+VISIBLE_COUNT_FIELDS = ("views", "plays", "likes", "comments", "shares", "saves")
+VIDEO_MEDIA_TYPES = {"video", "reel", "short", "shorts", "live", "livestream"}
+MIN_BREAKOUT_SAMPLE = 5
+BREAKOUT_MULTIPLE = 3.0
 
 
 def validate_library(records: list[dict[str, Any]]) -> list[str]:
@@ -158,6 +166,36 @@ def validate_library(records: list[dict[str, Any]]) -> list[str]:
                 f"library row {index} hook_excerpt exceeds the 12-word limit"
             )
 
+        visible_metrics = record.get("visible_metrics")
+        if visible_metrics is not None:
+            if not isinstance(visible_metrics, dict):
+                errors.append(
+                    f"library row {index} visible_metrics must be a JSON object"
+                )
+            else:
+                recorded_count = False
+                for field in VISIBLE_COUNT_FIELDS:
+                    if field not in visible_metrics:
+                        continue
+                    recorded_count = True
+                    value = visible_metrics.get(field)
+                    if (
+                        not isinstance(value, int)
+                        or isinstance(value, bool)
+                        or value < 0
+                    ):
+                        errors.append(
+                            f"library row {index} visible_metrics.{field} must be "
+                            "a non-negative integer"
+                        )
+                if recorded_count and not valid_iso_timestamp(
+                    visible_metrics.get("checked_at")
+                ):
+                    errors.append(
+                        f"library row {index} visible_metrics.checked_at must be "
+                        "an ISO 8601 timestamp with timezone when counts are recorded"
+                    )
+
     for field in ("source_id", "source_url"):
         duplicates = duplicate_values(records, field)
         if duplicates:
@@ -206,6 +244,230 @@ def markdown_counts(title: str, values: dict[str, int]) -> list[str]:
     lines += [f"| {markdown_text(label)} | {count} |" for label, count in values.items()]
     lines.append("")
     return lines
+
+
+def visible_view_metric(record: dict[str, Any]) -> tuple[str, int] | None:
+    metrics = record.get("visible_metrics")
+    if not isinstance(metrics, dict):
+        return None
+    for field in ("views", "plays"):
+        value = metrics.get(field)
+        if isinstance(value, int) and not isinstance(value, bool) and value >= 0:
+            return field, value
+    return None
+
+
+def is_video_media_type(value: Any) -> bool:
+    tokens = set(re.split(r"[^a-z0-9]+", str(value).strip().casefold()))
+    return bool(tokens.intersection(VIDEO_MEDIA_TYPES))
+
+
+def format_metric(value: int | float | None) -> str:
+    if value is None:
+        return "not available"
+    if isinstance(value, float) and not value.is_integer():
+        return f"{value:,.1f}"
+    return f"{int(value):,}"
+
+
+def build_performance(
+    inventory: list[dict[str, Any]],
+    library: list[dict[str, Any]],
+) -> dict[str, Any]:
+    inventory_by_id = {
+        str(record.get("source_id", "")).strip(): record for record in inventory
+    }
+    accessible_video_ids = {
+        source_id
+        for source_id, record in inventory_by_id.items()
+        if record.get("status") in ACCESSIBLE_STATUSES
+        and is_video_media_type(record.get("media_type"))
+    }
+
+    captured: list[tuple[dict[str, Any], str, int]] = []
+    metric_counts = {"views": 0, "plays": 0}
+    for record in library:
+        source_id = str(record.get("source_id", "")).strip()
+        if source_id not in accessible_video_ids:
+            continue
+        metric = visible_view_metric(record)
+        if metric is None:
+            continue
+        metric_name, value = metric
+        metric_counts[metric_name] += 1
+        captured.append((record, metric_name, value))
+
+    comparison_metric: str | None = None
+    if captured:
+        comparison_metric = max(
+            metric_counts,
+            key=lambda name: (metric_counts[name], name == "views"),
+        )
+    comparable = [row for row in captured if row[1] == comparison_metric]
+    values = [row[2] for row in comparable]
+    median_value = median(values) if values else None
+    baseline_eligible = (
+        len(values) >= MIN_BREAKOUT_SAMPLE
+        and median_value is not None
+        and median_value > 0
+    )
+
+    ranked: list[dict[str, Any]] = []
+    for record, metric_name, value in sorted(
+        comparable,
+        key=lambda item: (-item[2], str(item[0].get("source_id", ""))),
+    ):
+        multiple = value / median_value if median_value else None
+        is_breakout = bool(
+            baseline_eligible
+            and multiple is not None
+            and multiple >= BREAKOUT_MULTIPLE
+        )
+        metrics = record.get("visible_metrics", {})
+        ranked.append(
+            {
+                "source_id": record.get("source_id"),
+                "source_url": record.get("source_url"),
+                "metric": metric_name,
+                "visible_count": value,
+                "checked_at": metrics.get("checked_at"),
+                "published_at": record.get("published_at"),
+                "multiple_of_median": (
+                    round(multiple, 2) if multiple is not None else None
+                ),
+                "creator_relative_breakout": is_breakout,
+                "signal": (
+                    "creator-relative breakout candidate"
+                    if is_breakout
+                    else "ranked by visible metric only"
+                ),
+                "content_type": record.get("content_type"),
+                "topic": record.get("topic"),
+                "hook_text": record.get("hook_text"),
+            }
+        )
+
+    breakouts = [row for row in ranked if row["creator_relative_breakout"]]
+    return {
+        "accessible_video_count": len(accessible_video_ids),
+        "videos_with_visible_view_or_play_count": len(captured),
+        "comparison_metric": comparison_metric,
+        "comparable_video_count": len(comparable),
+        "alternate_metric_video_count": len(captured) - len(comparable),
+        "metric_coverage_ratio": (
+            round(len(captured) / len(accessible_video_ids), 4)
+            if accessible_video_ids
+            else None
+        ),
+        "median_visible_count": median_value,
+        "minimum_breakout_sample": MIN_BREAKOUT_SAMPLE,
+        "breakout_multiple_threshold": BREAKOUT_MULTIPLE,
+        "breakout_baseline_eligible": baseline_eligible,
+        "creator_relative_breakout_count": len(breakouts),
+        "creator_relative_breakouts": breakouts,
+        "top_videos": ranked[:10],
+    }
+
+
+def build_performance_report(
+    run: dict[str, Any], performance: dict[str, Any]
+) -> str:
+    accessible_count = performance["accessible_video_count"]
+    captured_count = performance["videos_with_visible_view_or_play_count"]
+    comparison_metric = performance["comparison_metric"]
+    comparable_count = performance["comparable_video_count"]
+    median_value = performance["median_visible_count"]
+    lines = [
+        "# Viral And Breakout Video Signals",
+        "",
+        f"Creator: {markdown_text(run.get('creator', ''))}",
+        f"Platform: {markdown_text(run.get('platform', ''))}",
+        f"Accessible videos in inventory: {accessible_count}",
+        f"Videos with timestamped visible views or plays: {captured_count}",
+        "",
+        "This report ranks visible performance signals. It does not prove absolute "
+        "virality or causation.",
+        "",
+    ]
+    if comparison_metric is None:
+        lines += [
+            "No timestamped visible views or plays were recorded. Top-video ranking "
+            "and breakout inference are unavailable.",
+            "",
+        ]
+        return "\n".join(lines)
+
+    lines += [
+        f"Comparison metric: visible {comparison_metric}",
+        f"Comparable videos: {comparable_count}",
+        f"Median visible {comparison_metric}: {format_metric(median_value)}",
+        "Breakout rule: at least "
+        f"{MIN_BREAKOUT_SAMPLE} comparable videos and at least "
+        f"{BREAKOUT_MULTIPLE:g}x the creator median.",
+        "Creator-relative breakout candidates: "
+        f"{performance['creator_relative_breakout_count']}",
+        "",
+    ]
+    if performance["alternate_metric_video_count"]:
+        lines += [
+            f"Excluded from the baseline because they used a different visible "
+            f"metric: {performance['alternate_metric_video_count']}",
+            "",
+        ]
+    if not performance["breakout_baseline_eligible"]:
+        reason = (
+            f"fewer than {MIN_BREAKOUT_SAMPLE} comparable videos"
+            if comparable_count < MIN_BREAKOUT_SAMPLE
+            else "the creator median is zero"
+        )
+        lines += [
+            f"No breakout labels were assigned because {reason}.",
+            "",
+        ]
+
+    lines += [
+        "## Top Videos By Visible Performance",
+        "",
+        "| Rank | Source ID | Source | Published | Visible count | Captured at | Multiple of median | Signal | Content type | Hook |",
+        "|---:|---|---|---|---:|---|---:|---|---|---|",
+    ]
+    for rank, row in enumerate(performance["top_videos"], start=1):
+        multiple = row["multiple_of_median"]
+        multiple_text = f"{multiple:.2f}x" if multiple is not None else "n/a"
+        source_id = markdown_text(row.get("source_id", ""))
+        source_url = quote(
+            str(row.get("source_url", "")), safe=":/?#@!$&'*+,;=%"
+        )
+        source = f"<{source_url}>"
+        lines.append(
+            "| "
+            + " | ".join(
+                [
+                    str(rank),
+                    source_id,
+                    source,
+                    markdown_text(row.get("published_at") or "not recorded"),
+                    format_metric(row.get("visible_count")),
+                    markdown_text(row.get("checked_at") or "not recorded"),
+                    multiple_text,
+                    markdown_text(row.get("signal", "")),
+                    markdown_text(row.get("content_type") or "not recorded"),
+                    markdown_text(row.get("hook_text") or "not recorded"),
+                ]
+            )
+            + " |"
+        )
+    lines += [
+        "",
+        "## Interpretation Limits",
+        "",
+        "Account age, post age, paid promotion, collaborations, deletions, metric "
+        "visibility, and distribution changes can distort creator-relative comparisons.",
+        "A breakout signal identifies an outlier worth studying; it does not show "
+        "which hook, topic, or format caused the result.",
+        "",
+    ]
+    return "\n".join(lines)
 
 
 def build_pattern_playbook(records: list[dict[str, Any]]) -> str:
@@ -377,6 +639,7 @@ def main() -> None:
         reverse=True,
     )
     coverage = build_coverage(run, inventory, ordered_library)
+    performance = build_performance(inventory, ordered_library)
     relevant = [record for record in ordered_library if record.get("is_relevant") is True]
     summary = {
         "schema_version": 2,
@@ -392,6 +655,7 @@ def main() -> None:
         "hook_types": sorted_counts(relevant, "hook_type"),
         "content_pillars": sorted_counts(relevant, "content_pillar"),
         "calls_to_action": sorted_counts(relevant, "cta"),
+        "performance": performance,
         "reused_script_patterns": {
             pattern: count
             for pattern, count in sorted_counts(
@@ -409,6 +673,10 @@ def main() -> None:
     atomic_write_text(
         directory / "coverage-report.md",
         build_coverage_report(run, inventory, ordered_library, coverage),
+    )
+    atomic_write_text(
+        directory / "performance-report.md",
+        build_performance_report(run, performance),
     )
 
     if not coverage["overall_coverage_complete"] and not args.allow_incomplete:

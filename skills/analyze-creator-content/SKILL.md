@@ -1,6 +1,6 @@
 ---
 name: analyze-creator-content
-description: Build an auditable, source-linked content library from creator profiles or supplied posts. Use for analyzing hooks, formats, content types, CTAs, recurring series, repeated script structures, factual claims, and reusable content mechanics without copying a creator's voice.
+description: Build an auditable, source-linked content library from creator profiles or supplied posts. Use for analyzing hooks, formats, content types, CTAs, recurring series, repeated script structures, factual claims, visible performance, breakout videos, and reusable content mechanics without copying a creator's voice.
 ---
 
 # Analyze Creator Content
@@ -38,6 +38,7 @@ Produce:
 - `content-library.csv`, generated for browsing,
 - `library-summary.json`, generated counts and coverage flags,
 - `pattern-playbook.md`, recurring mechanics with source examples,
+- `performance-report.md`, top videos and evidence-bounded breakout signals,
 - `coverage-report.md`, exact gaps and completion axes,
 - `creator-brief.md`, the synthesized content system,
 - `research-audit.md` when factual claims materially matter.
@@ -101,7 +102,8 @@ For each accessible video:
 - transcribe spoken audio sufficiently to analyze it,
 - read the caption,
 - inspect on-screen text and sample multiple frames when text-led or silent,
-- record the CTA, proof device, series marker, and visible metric only when observed.
+- record the CTA, proof device, series marker, and visible metrics only when observed;
+- store visible counts in `visible_metrics` with a timezone-aware `checked_at` timestamp.
 
 Keep full transcripts and downloaded media temporary by default. Store paraphrases and structural beats in the durable library.
 
@@ -120,7 +122,19 @@ Keep these distinct:
 
 Use low confidence for partial audio, uncertain OCR, unclear dates, ambiguous labels, or access-metadata-only records.
 
-### 7. Find Reused Mechanics
+### 7. Surface Top And Breakout Videos
+
+Capture visible `views` where the platform exposes them consistently, or `plays` as the fallback. The builder ranks accessible videos using the dominant comparable metric and reports metric coverage. It uses all accessible video rows for this performance layer, including rows outside the user's relevance lens.
+
+Treat “viral” as a user-facing search intent, not a proven absolute label. Call a video a `creator-relative breakout candidate` only when:
+
+- at least five comparable videos have timestamped counts,
+- the median visible count is greater than zero,
+- the video's visible count is at least 3x that creator median.
+
+With fewer or incomparable metrics, rank the visible counts but assign no breakout label. Do not substitute likes or comments for reach. Do not claim that the hook, topic, or format caused the result.
+
+### 8. Find Reused Mechanics
 
 Cluster recurring content pillars, hook families, opening visuals, narrative structures, teaching structures, series, CTAs, proof devices, and script architectures.
 
@@ -130,21 +144,21 @@ A repeated script pattern needs at least two source examples with the same funct
 
 Do not promote two posts as a repeated system merely because they share a topic. Distinguish high-frequency systems from one-off experiments.
 
-### 8. Audit Claims When Needed
+### 9. Audit Claims When Needed
 
 For factual, scientific, health, legal, financial, or safety claims, follow [references/research-audit.md](references/research-audit.md). Prefer primary sources and record when a creator's wording is stronger than the underlying evidence.
 
-### 9. Build And Validate
+### 10. Build And Validate
 
 After `content-library.jsonl` is populated, run:
 
     python3 <skill-dir>/scripts/build_creator_library.py --directory OUTPUT_DIR
 
-The builder validates structure, exact inventory-to-library metadata linkage, URLs, Booleans, confidence, excerpt length, and coverage. It then writes the generated CSV, JSON, pattern playbook, and coverage report atomically.
+The builder validates structure, exact inventory-to-library metadata linkage, URLs, Booleans, confidence, excerpt length, timestamped metric counts, and coverage. It then writes the generated CSV, JSON, pattern playbook, performance report, and coverage report atomically.
 
 Use `--allow-incomplete` only for a clearly labeled work in progress. This does not turn incomplete coverage into complete coverage.
 
-### 10. Write The Creator Brief
+### 11. Write The Creator Brief
 
 Create `creator-brief.md` with:
 
@@ -155,10 +169,11 @@ Create `creator-brief.md` with:
 5. Hook and opening-visual system
 6. Reused scripts, series, and proof devices
 7. CTA and distribution behavior
-8. Mechanics worth testing in the user's own voice
-9. One-offs, ambiguous patterns, and what not to copy
-10. Research-claim audit summary
-11. Access and confidence limitations
+8. Top videos, metric coverage, and creator-relative breakout candidates
+9. Mechanics worth testing in the user's own voice
+10. One-offs, ambiguous patterns, and what not to copy
+11. Research-claim audit summary
+12. Access, performance, and confidence limitations
 
 Lead with generated counts and source-linked patterns. Label taste judgments as inference.
 
@@ -175,6 +190,8 @@ Before claiming completion, confirm:
 - every promoted pattern has at least two source examples,
 - hooks are paraphrased by default and excerpts are at most 12 words,
 - observed facts, inference, measurement, and external verification are not mixed,
+- performance counts have capture timestamps and use one comparable metric,
+- breakout claims meet the five-video and 3x-median rule,
 - no full transcript, downloaded media, session data, or secret is in the deliverables,
 - generated artifacts were produced without validation errors.
 
@@ -204,6 +221,7 @@ Return the partial library, exact coverage axes, and safest next step. Never rep
     - creator-brief.md
     - content-library.csv
     - pattern-playbook.md
+    - performance-report.md
     - coverage-report.md
     - research-audit.md, when applicable
 
@@ -211,6 +229,7 @@ Return the partial library, exact coverage axes, and safest next step. Never rep
     - content system
     - hook system
     - recurring formats and script structures
+    - top videos and creator-relative breakout candidates
     - mechanics worth testing
     - claims or tactics not worth copying
 
@@ -218,6 +237,7 @@ Return the partial library, exact coverage axes, and safest next step. Never rep
     - unresolved or inaccessible items
     - low-confidence audio, OCR, or classification
     - acquisition and research gaps
+    - missing or incomparable performance metrics
 
     Next:
     - one concrete experiment using a mechanic in the user's own voice

@@ -305,6 +305,8 @@ def markdown_text(value: Any) -> str:
     text = str(value if value is not None else "")
     text = text.replace("\\", "\\\\")
     text = text.replace("\r", " ").replace("\n", " ")
+    text = text.replace("`", "\\`")
+    text = text.replace("[", "\\[").replace("]", "\\]")
     text = text.replace("|", "\\|")
     text = text.replace("<", "&lt;").replace(">", "&gt;")
     return text.strip()

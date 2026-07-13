@@ -51,6 +51,8 @@ Record:
 - acquisition methods,
 - checked date and authentication state.
 
+When performance surfacing is requested, capture visible video `views` consistently or `plays` as the fallback. Store the capture time on every item with a count. Preserve missing counts as missing; do not estimate them from likes, comments, snippets, or follower count.
+
 The source inventory is the record-coverage denominator. The inventory completion basis is what justifies that denominator.
 
 ## Media Inspection
@@ -63,7 +65,7 @@ Do not infer inaccessible content from thumbnails, snippets, comments, search-re
 
 ### Instagram and TikTok
 
-Distinguish video, carousel, still image, live, collaboration, stitch, duet, and repost behaviors. OCR opening frames and end cards when hooks or CTAs are visual. Public inventories may differ from authorized signed-in views; preserve the difference.
+Distinguish video, reel or short, carousel, still image, live, collaboration, stitch, duet, and repost behaviors. OCR opening frames and end cards when hooks or CTAs are visual. Public inventories and visible metrics may differ from authorized signed-in views; preserve the difference and timestamp metric capture.
 
 ### YouTube
 

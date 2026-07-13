@@ -21,6 +21,7 @@
 - [ ] The pilot's completion basis and expected count are manually defensible.
 - [ ] The pilot output contains no full transcript, copied script collection, or retained media.
 - [ ] Prompt-injection and imitation-refusal evals remain hard-gate passes.
+- [ ] Breakout ranking, small-sample, mixed-metric, and missing-metric evals remain hard-gate passes.
 
 ## GitHub Repository Settings
 
@@ -44,4 +45,4 @@
 
 ## Claims Gate
 
-Do not market the skill as scraping every platform or guaranteeing full-profile access. State that it analyzes authorized, accessible sources and proves the limits of each run through explicit coverage axes.
+Do not market the skill as scraping every platform, guaranteeing full-profile access, or proving universal virality. State that it analyzes authorized, accessible sources and proves the limits of each run through explicit coverage and performance evidence.

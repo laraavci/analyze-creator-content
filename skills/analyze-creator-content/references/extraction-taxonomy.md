@@ -128,4 +128,8 @@ Mark an item relevant when it contributes to the user's lens, including position
 
 ## Performance Interpretation
 
-Do not call a pattern high-performing unless comparable metrics were captured consistently. Separate observed frequency, visible engagement, inferred effectiveness, and user judgment. Account age, distribution, collaborations, paid promotion, removed posts, and time since publication can distort comparisons.
+Use visible `views` or, when unavailable, `plays` for video ranking. Store each count with a timezone-aware capture timestamp. Do not mix metric types in one baseline.
+
+The generated report assigns `creator-relative breakout candidate` only when at least five comparable videos exist, the median is positive, and a video's visible count is at least 3x that median. If those conditions fail, show the ranking but assign no breakout label.
+
+Do not call a pattern high-performing unless comparable metrics were captured consistently. Separate observed frequency, visible engagement, creator-relative measurement, inferred effectiveness, and user judgment. Likes and comments do not substitute for reach. Account age, post age, distribution, collaborations, paid promotion, removed posts, metric visibility, and time since publication can distort comparisons. An outlier is a study candidate, not proof that its hook or format caused the result.

@@ -194,6 +194,154 @@ class CreatorLibraryTests(unittest.TestCase):
         playbook = (directory / "pattern-playbook.md").read_text()
         self.assertIn("Frequency: 2", playbook)
         self.assertIn("https://example.test/posts/one", playbook)
+        performance_report = (directory / "performance-report.md").read_text()
+        self.assertIn("No timestamped visible views or plays", performance_report)
+
+    def test_performance_report_surfaces_creator_relative_breakout(self) -> None:
+        directory = self.initialize()
+        counts = {
+            "breakout": 1000,
+            "base-a": 100,
+            "base-b": 100,
+            "base-c": 100,
+            "base-d": 100,
+            "base-e": 100,
+        }
+        inventory = [inventory_row(source_id) for source_id in counts]
+        library = []
+        for source_id, count in counts.items():
+            row = library_row(source_id)
+            row["visible_metrics"] = {
+                "views": count,
+                "likes": count // 10,
+                "checked_at": "2026-07-14T12:00:00+00:00",
+            }
+            library.append(row)
+        write_jsonl(directory / "source-inventory.jsonl", inventory)
+        write_jsonl(directory / "content-library.jsonl", library)
+        self.assertEqual(self.finalize(directory, 6).returncode, 0)
+
+        built = run_script(BUILD, "--directory", directory)
+        self.assertEqual(built.returncode, 0, built.stderr)
+        summary = json.loads((directory / "library-summary.json").read_text())
+        performance = summary["performance"]
+        self.assertEqual(performance["comparison_metric"], "views")
+        self.assertEqual(performance["comparable_video_count"], 6)
+        self.assertEqual(performance["median_visible_count"], 100.0)
+        self.assertTrue(performance["breakout_baseline_eligible"])
+        self.assertEqual(performance["creator_relative_breakout_count"], 1)
+        self.assertEqual(
+            performance["creator_relative_breakouts"][0]["source_id"],
+            "breakout",
+        )
+        self.assertEqual(
+            performance["creator_relative_breakouts"][0]["multiple_of_median"],
+            10.0,
+        )
+        report = (directory / "performance-report.md").read_text()
+        self.assertIn("Creator-relative breakout candidates: 1", report)
+        self.assertIn("<https://example.test/posts/breakout>", report)
+        self.assertIn("2026-07-14T12:00:00+00:00", report)
+        self.assertIn("10.00x", report)
+
+    def test_small_metric_sample_ranks_without_breakout_label(self) -> None:
+        directory = self.initialize()
+        counts = {"top": 1000, "base-a": 100, "base-b": 100}
+        inventory = [inventory_row(source_id) for source_id in counts]
+        library = []
+        for source_id, count in counts.items():
+            row = library_row(source_id)
+            row["visible_metrics"] = {
+                "views": count,
+                "checked_at": "2026-07-14T12:00:00Z",
+            }
+            library.append(row)
+        write_jsonl(directory / "source-inventory.jsonl", inventory)
+        write_jsonl(directory / "content-library.jsonl", library)
+        self.assertEqual(self.finalize(directory, 3).returncode, 0)
+
+        built = run_script(BUILD, "--directory", directory)
+        self.assertEqual(built.returncode, 0, built.stderr)
+        performance = json.loads(
+            (directory / "library-summary.json").read_text()
+        )["performance"]
+        self.assertFalse(performance["breakout_baseline_eligible"])
+        self.assertEqual(performance["creator_relative_breakout_count"], 0)
+        self.assertEqual(performance["top_videos"][0]["source_id"], "top")
+        report = (directory / "performance-report.md").read_text()
+        self.assertIn("fewer than 5 comparable videos", report)
+
+    def test_mixed_view_and_play_metrics_are_not_combined(self) -> None:
+        directory = self.initialize()
+        metric_rows = (
+            ("view-a", "views", 1000),
+            ("view-b", "views", 100),
+            ("view-c", "views", 100),
+            ("play-a", "plays", 50),
+            ("play-b", "plays", 50),
+            ("play-c", "plays", 50),
+        )
+        inventory = [inventory_row(source_id) for source_id, _, _ in metric_rows]
+        library = []
+        for source_id, metric_name, count in metric_rows:
+            row = library_row(source_id)
+            row["visible_metrics"] = {
+                metric_name: count,
+                "checked_at": "2026-07-14T12:00:00Z",
+            }
+            library.append(row)
+        write_jsonl(directory / "source-inventory.jsonl", inventory)
+        write_jsonl(directory / "content-library.jsonl", library)
+        self.assertEqual(self.finalize(directory, 6).returncode, 0)
+
+        built = run_script(BUILD, "--directory", directory)
+        self.assertEqual(built.returncode, 0, built.stderr)
+        performance = json.loads(
+            (directory / "library-summary.json").read_text()
+        )["performance"]
+        self.assertEqual(performance["comparison_metric"], "views")
+        self.assertEqual(performance["comparable_video_count"], 3)
+        self.assertEqual(performance["alternate_metric_video_count"], 3)
+        self.assertEqual(performance["creator_relative_breakout_count"], 0)
+
+    def test_visible_metrics_require_valid_counts_and_timestamp(self) -> None:
+        cases = (
+            ("not an object", [], "visible_metrics must be a JSON object"),
+            (
+                "string count",
+                {"views": "100", "checked_at": "2026-07-14T12:00:00Z"},
+                "visible_metrics.views must be a non-negative integer",
+            ),
+            (
+                "missing timestamp",
+                {"views": 100},
+                "visible_metrics.checked_at must be an ISO 8601 timestamp with timezone",
+            ),
+        )
+        for label, metrics, expected in cases:
+            with self.subTest(label=label):
+                directory = self.base / ("metrics-" + label.replace(" ", "-"))
+                initialized = run_script(
+                    INIT,
+                    "--creator",
+                    "demo-creator",
+                    "--platform",
+                    "example",
+                    "--scope-kind",
+                    "supplied-links",
+                    "--output",
+                    directory,
+                )
+                self.assertEqual(initialized.returncode, 0, initialized.stderr)
+                write_jsonl(
+                    directory / "source-inventory.jsonl", [inventory_row("one")]
+                )
+                row = library_row("one")
+                row["visible_metrics"] = metrics
+                write_jsonl(directory / "content-library.jsonl", [row])
+                built = run_script(BUILD, "--directory", directory, "--allow-incomplete")
+                self.assertNotEqual(built.returncode, 0)
+                self.assertIn(expected, built.stderr)
 
     def test_full_profile_rejects_supplied_set_completion(self) -> None:
         directory = self.initialize()
@@ -365,6 +513,11 @@ class CreatorLibraryTests(unittest.TestCase):
         row = library_row("one", creator="formula-demo")
         row["topic"] = "=2+2"
         row["content_pillar"] = "bad|pillar\n# injected heading"
+        row["hook_text"] = "[click here](https://malicious.example)"
+        row["visible_metrics"] = {
+            "views": 100,
+            "checked_at": "2026-07-14T12:00:00Z",
+        }
         write_jsonl(directory / "source-inventory.jsonl", inventory)
         write_jsonl(directory / "content-library.jsonl", [row])
         finalized = self.finalize(directory, 1, basis="user-supplied-set")
@@ -377,6 +530,9 @@ class CreatorLibraryTests(unittest.TestCase):
         playbook = (directory / "pattern-playbook.md").read_text(encoding="utf-8")
         self.assertIn("bad\\|pillar # injected heading", playbook)
         self.assertNotIn("\n# injected heading", playbook)
+        performance = (directory / "performance-report.md").read_text(encoding="utf-8")
+        self.assertIn("\\[click here\\](https://malicious.example)", performance)
+        self.assertNotIn("[click here](https://malicious.example)", performance)
 
 
 if __name__ == "__main__":

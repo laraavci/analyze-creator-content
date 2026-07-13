@@ -8,8 +8,8 @@ Analyze Creator Content separates host capabilities, model judgment, and determi
 2. The agent writes a source inventory before interpreting the content.
 3. The inventory finalizer records the scope-compatible completion basis and gap count.
 4. A multimodal model reviews audio, captions, text, and frames and writes one content-library row per inventory item.
-5. The builder validates schema and exact source linkage, computes coverage, and generates safe aggregate artifacts.
-6. The agent writes a source-linked creator brief from the validated counts and patterns.
+5. The builder validates schema and exact source linkage, computes coverage, patterns, and creator-relative performance signals, and generates safe aggregate artifacts.
+6. The agent writes a source-linked creator brief from the validated counts, patterns, and performance limits.
 
 ## Ownership Boundaries
 
@@ -23,7 +23,13 @@ Owns multimodal interpretation, relevance judgment, taxonomy assignment, functio
 
 ### Deterministic Helpers
 
-Own initialization safety, inventory-completion rules, JSON/JSONL validation, URL checks, exact source linkage, coverage axes, repeated-pattern thresholds, excerpt limits, output escaping, atomic writes, packaging, installation, and public-repository scans.
+Own initialization safety, inventory-completion rules, JSON/JSONL validation, URL checks, exact source linkage, coverage axes, repeated-pattern thresholds, visible-metric validation, breakout thresholds, excerpt limits, output escaping, atomic writes, packaging, installation, and public-repository scans.
+
+## Performance Model
+
+The performance report uses visible `views` or `plays`, never likes or comments as a reach substitute. Counts require timezone-aware capture timestamps. Mixed metric types are not combined into one baseline.
+
+A video becomes a `creator-relative breakout candidate` only when at least five comparable videos exist, the median is positive, and the video's count is at least 3x that median. Smaller or incomparable samples can be ranked but receive no breakout label. This identifies an outlier for study, not universal virality or causation.
 
 ## Coverage Model
 

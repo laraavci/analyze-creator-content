@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import subprocess
 import sys
@@ -58,6 +59,92 @@ class DistributionTests(unittest.TestCase):
         self.assertIn("analyze-creator-content/SKILL.md", names)
         self.assertTrue(all(name.startswith("analyze-creator-content/") for name in names))
         self.assertFalse(any("__pycache__" in name or name.endswith(".pyc") for name in names))
+
+    def test_packaged_skill_runs_from_extracted_zip(self) -> None:
+        packaged = run_script(PACKAGE)
+        self.assertEqual(packaged.returncode, 0, packaged.stderr)
+        archive = ROOT / "dist" / "analyze-creator-content.zip"
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            with zipfile.ZipFile(archive) as bundle:
+                bundle.extractall(base)
+            scripts = base / "analyze-creator-content" / "scripts"
+            run_directory = base / "smoke-run"
+            initialized = run_script(
+                scripts / "init_creator_library.py",
+                "--creator",
+                "archive-smoke",
+                "--platform",
+                "example",
+                "--profile-url",
+                "https://example.test/archive-smoke",
+                "--scope-kind",
+                "supplied-links",
+                "--scope",
+                "one synthetic video",
+                "--output",
+                run_directory,
+            )
+            self.assertEqual(initialized.returncode, 0, initialized.stderr)
+            inventory = {
+                "source_id": "one",
+                "source_url": "https://example.test/posts/one",
+                "platform": "example",
+                "creator": "archive-smoke",
+                "media_type": "video",
+                "status": "accessible",
+                "discovery_basis": "archive smoke fixture",
+            }
+            library = {
+                "source_id": "one",
+                "source_url": "https://example.test/posts/one",
+                "platform": "example",
+                "creator": "archive-smoke",
+                "media_type": "video",
+                "review_basis": ["synthetic fixture"],
+                "is_relevant": True,
+                "confidence": "high",
+                "topic": "archive smoke",
+                "content_type": "educational explainer",
+                "format": "talking head",
+                "hook_type": "direct question",
+                "structure_beats": ["hook", "payoff"],
+                "visible_metrics": {
+                    "views": 100,
+                    "checked_at": "2026-07-14T12:00:00Z",
+                },
+            }
+            (run_directory / "source-inventory.jsonl").write_text(
+                json.dumps(inventory) + "\n", encoding="utf-8"
+            )
+            (run_directory / "content-library.jsonl").write_text(
+                json.dumps(library) + "\n", encoding="utf-8"
+            )
+            finalized = run_script(
+                scripts / "finalize_inventory.py",
+                "--directory",
+                run_directory,
+                "--status",
+                "complete",
+                "--basis",
+                "user-supplied-set",
+                "--expected-items",
+                1,
+                "--unresolved-gap-count",
+                0,
+                "--method",
+                "archive smoke fixture",
+            )
+            self.assertEqual(finalized.returncode, 0, finalized.stderr)
+            built = run_script(
+                scripts / "build_creator_library.py", "--directory", run_directory
+            )
+            self.assertEqual(built.returncode, 0, built.stderr)
+            self.assertTrue((run_directory / "performance-report.md").is_file())
+            self.assertIn(
+                "fewer than 5 comparable videos",
+                (run_directory / "performance-report.md").read_text(encoding="utf-8"),
+            )
 
     def test_generic_and_project_installers_refuse_then_backup_overwrite(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

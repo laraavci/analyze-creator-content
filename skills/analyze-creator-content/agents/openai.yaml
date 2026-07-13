@@ -1,4 +1,4 @@
 interface:
   display_name: "Analyze Creator Content"
-  short_description: "Build an auditable creator content library"
-  default_prompt: "Use $analyze-creator-content to inventory this creator, extract content mechanics, and build a source-linked content library."
+  short_description: "Find creator patterns and breakout videos"
+  default_prompt: "Use $analyze-creator-content on this creator: [profile URL]. Review every accessible video and extract content types, hooks, recurring topics, CTAs, reused script structures, research claims, visible performance metrics, viral or breakout video candidates, and a source-linked content library. Rank top videos using timestamped visible metrics and a creator-relative baseline; do not infer virality when metrics are unavailable or incomparable."
