@@ -105,6 +105,7 @@ class DistributionTests(unittest.TestCase):
                 "is_relevant": True,
                 "confidence": "high",
                 "topic": "archive smoke",
+                "content_pillar": "distribution verification",
                 "content_type": "educational explainer",
                 "format": "talking head",
                 "hook_type": "direct question",

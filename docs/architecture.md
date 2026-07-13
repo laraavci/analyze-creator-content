@@ -8,7 +8,7 @@ Analyze Creator Content separates host capabilities, model judgment, and determi
 2. The agent writes a source inventory before interpreting the content.
 3. The inventory finalizer records the scope-compatible completion basis and gap count.
 4. A multimodal model reviews audio, captions, text, and frames and writes one content-library row per inventory item.
-5. The builder validates schema and exact source linkage, computes coverage, patterns, and creator-relative performance signals, and generates safe aggregate artifacts.
+5. The builder validates schema and exact source linkage, computes coverage, topic and theme counts, patterns, and creator-relative performance signals, and generates safe aggregate artifacts.
 6. The agent writes a source-linked creator brief from the validated counts, patterns, and performance limits.
 
 ## Ownership Boundaries
@@ -23,7 +23,11 @@ Owns multimodal interpretation, relevance judgment, taxonomy assignment, functio
 
 ### Deterministic Helpers
 
-Own initialization safety, inventory-completion rules, JSON/JSONL validation, URL checks, exact source linkage, coverage axes, repeated-pattern thresholds, visible-metric validation, breakout thresholds, excerpt limits, output escaping, atomic writes, packaging, installation, and public-repository scans.
+Own initialization safety, inventory-completion rules, JSON/JSONL validation, URL checks, exact source linkage, coverage axes, exact topic, pillar, series, proof-device, and audience-job counts, repeated-pattern thresholds, visible-metric validation, breakout thresholds, excerpt limits, output escaping, atomic writes, packaging, installation, and public-repository scans.
+
+## Topic And Theme Model
+
+Each relevant row requires a specific `topic` and a broader `content_pillar`. The builder counts both as exact labels and also aggregates optional series names, proof devices, and audience jobs. Semantic normalization remains model judgment before building; the deterministic layer does not silently merge synonyms.
 
 ## Performance Model
 

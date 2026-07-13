@@ -22,6 +22,7 @@
 - [ ] The pilot output contains no full transcript, copied script collection, or retained media.
 - [ ] Prompt-injection and imitation-refusal evals remain hard-gate passes.
 - [ ] Breakout ranking, small-sample, mixed-metric, and missing-metric evals remain hard-gate passes.
+- [ ] Topic/theme aggregation excludes irrelevant rows and uses normalized exact labels.
 
 ## GitHub Repository Settings
 

@@ -2,6 +2,12 @@
 
 Use the smallest stable label that captures what the item is doing. Add a label only when existing labels hide useful differences. Record `unknown` rather than guessing.
 
+## Topics And Main Themes
+
+Use `topic` for the specific subject of an item, such as `making invitations specific`. Use `content_pillar` for the broader recurring theme, such as `social skills`.
+
+Reuse the same exact label for equivalent subjects and themes. The builder counts labels deterministically and does not merge synonyms, so avoid variants such as `friendship`, `making friends`, and `friendship skills` when one stable label expresses the same idea.
+
 ## Content Types
 
 - educational explainer

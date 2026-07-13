@@ -36,8 +36,8 @@ Produce:
 - `source-inventory.jsonl`, one row per discovered in-scope item,
 - `content-library.jsonl`, one analyzed or explicitly excluded row per inventory item,
 - `content-library.csv`, generated for browsing,
-- `library-summary.json`, generated counts and coverage flags,
-- `pattern-playbook.md`, recurring mechanics with source examples,
+- `library-summary.json`, generated topic, theme, pattern, performance, and coverage counts,
+- `pattern-playbook.md`, topic and theme counts plus recurring mechanics with source examples,
 - `performance-report.md`, top videos and evidence-bounded breakout signals,
 - `coverage-report.md`, exact gaps and completion axes,
 - `creator-brief.md`, the synthesized content system,
@@ -138,6 +138,8 @@ With fewer or incomparable metrics, rank the visible counts but assign no breako
 
 Cluster recurring content pillars, hook families, opening visuals, narrative structures, teaching structures, series, CTAs, proof devices, and script architectures.
 
+Use `topic` for the specific subject of one item and `content_pillar` for its broader recurring theme. Normalize synonymous labels before building because generated topic and pillar counts use exact string matches. The builder also aggregates series names, proof devices, and audience jobs.
+
 A repeated script pattern needs at least two source examples with the same functional sequence. Express it structurally, for example:
 
     Pain recognition -> surprising claim -> three actions -> save CTA
@@ -175,7 +177,7 @@ Create `creator-brief.md` with:
 11. Research-claim audit summary
 12. Access, performance, and confidence limitations
 
-Lead with generated counts and source-linked patterns. Label taste judgments as inference.
+Lead with generated topic, pillar, audience-job, series, proof-device, and source-linked pattern counts. Use the creator brief to explain relationships across those exact counts. Label taste judgments and broader synthesis as inference.
 
 ## Quality Gates
 
@@ -188,6 +190,7 @@ Before claiming completion, confirm:
 - source URL, creator, platform, and media type match across both files,
 - inaccessible items remain visible,
 - every promoted pattern has at least two source examples,
+- topic and content-pillar labels use consistent wording across equivalent items,
 - hooks are paraphrased by default and excerpts are at most 12 words,
 - observed facts, inference, measurement, and external verification are not mixed,
 - performance counts have capture timestamps and use one comparable metric,

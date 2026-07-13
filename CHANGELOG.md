@@ -15,6 +15,7 @@ All notable changes will be documented here. The project follows semantic versio
 - Regression tests, cross-platform CI, manual model evals, and live-pilot gate.
 - Timestamped visible-metric validation, top-video ranking, and a source-linked performance report.
 - Creator-relative breakout detection with a five-video minimum and 3x-median threshold.
+- Deterministic topic, content-pillar, series, proof-device, and audience-job summaries.
 
 ### Security
 
@@ -29,3 +30,4 @@ All notable changes will be documented here. The project follows semantic versio
 
 - Complete coverage now requires a scope-compatible inventory basis, exact expected count, checked timestamp, and zero unresolved gaps.
 - Mixed `views` and `plays` are not combined into one performance baseline, and undersized samples receive no breakout label.
+- Relevant rows now require a broader `content_pillar`, and synonymous topic/theme labels must be normalized before exact counting.

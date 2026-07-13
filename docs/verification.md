@@ -15,7 +15,7 @@ git diff --check
 ## What Each Check Proves
 
 - `validate_skill.py`: Agent Skills frontmatter, directory naming, referenced resources, Python syntax, and absence of placeholders.
-- unit tests: initialization, safe overwrite behavior, inventory finalization, coverage truth, source linkage, schema and metric validation, creator-relative breakout rules, output safety, packaging, and installation.
+- unit tests: initialization, safe overwrite behavior, inventory finalization, coverage truth, source linkage, schema and metric validation, topic/theme aggregation, creator-relative breakout rules, output safety, packaging, and installation.
 - `package_skill.py`: deterministic downloadable ZIP and SHA-256 checksum.
 - `audit_public_repo.py`: no known private paths, private source-repository references, common secret patterns, or committed generated artifacts.
 - `git diff --check`: no whitespace errors.
@@ -36,3 +36,4 @@ Before the first release, test an authorized public creator with a small but non
 6. The coverage report does not claim more than the acquisition method proves.
 7. Visible performance counts include capture timestamps and one comparable metric.
 8. The performance report labels no breakout without the five-video, 3x-median rule.
+9. Topic, content-pillar, series, proof-device, and audience-job counts match the relevant source rows.

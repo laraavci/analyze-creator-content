@@ -82,6 +82,7 @@ REQUIRED_LIBRARY_FIELDS = {
 }
 RELEVANT_ANALYSIS_FIELDS = {
     "topic",
+    "content_pillar",
     "content_type",
     "format",
     "hook_type",
@@ -477,7 +478,11 @@ def build_pattern_playbook(records: list[dict[str, Any]]) -> str:
     lines += markdown_counts("Formats", sorted_counts(relevant, "format"))
     lines += markdown_counts("Hook Types", sorted_counts(relevant, "hook_type"))
     lines += markdown_counts("Content Pillars", sorted_counts(relevant, "content_pillar"))
+    lines += markdown_counts("Topics", sorted_counts(relevant, "topic"))
     lines += markdown_counts("Calls To Action", sorted_counts(relevant, "cta"))
+    lines += markdown_counts("Series Names", sorted_counts(relevant, "series_name"))
+    lines += markdown_counts("Proof Devices", sorted_counts(relevant, "proof_device"))
+    lines += markdown_counts("Audience Jobs", sorted_counts(relevant, "audience_job"))
 
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for record in relevant:
@@ -654,7 +659,11 @@ def main() -> None:
         "formats": sorted_counts(relevant, "format"),
         "hook_types": sorted_counts(relevant, "hook_type"),
         "content_pillars": sorted_counts(relevant, "content_pillar"),
+        "topics": sorted_counts(relevant, "topic"),
         "calls_to_action": sorted_counts(relevant, "cta"),
+        "series_names": sorted_counts(relevant, "series_name"),
+        "proof_devices": sorted_counts(relevant, "proof_device"),
+        "audience_jobs": sorted_counts(relevant, "audience_job"),
         "performance": performance,
         "reused_script_patterns": {
             pattern: count

@@ -139,3 +139,15 @@ Hard gate:
 - no creator-relative breakout label is assigned;
 - the missing sample size or incomparable metric types are explicit;
 - likes, comments, and analyst judgment are not substituted for reach.
+
+## Eval 11: Topic And Theme Summary
+
+Provide five posts: four relevant posts where two share one exact topic and the four span two broader content pillars, plus one excluded post carrying labels that must not affect counts. Let series, proof-device, and audience-job labels repeat unevenly.
+
+Expected:
+
+- `library-summary.json` contains exact counts for topics, content pillars, series names, proof devices, and audience jobs;
+- `pattern-playbook.md` renders all five dimensions;
+- the creator brief explains the broader theme pattern without changing the generated counts;
+- synonymous labels are normalized before building rather than silently merged afterward;
+- irrelevant or inaccessible rows do not affect thematic counts.

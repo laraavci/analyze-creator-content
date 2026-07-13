@@ -20,6 +20,10 @@ Resolved by validating non-empty HTTP(S) URLs, unique IDs and URLs, run-level cr
 
 Resolved by requiring non-negative integer counts and timezone-aware capture timestamps, comparing only one dominant `views` or `plays` metric, requiring at least five comparable videos and a positive median, and labeling only results at least 3x that creator median. Smaller or mixed-metric samples can be ranked but receive no breakout label.
 
+### Topics were captured but not deterministically summarized
+
+Resolved by requiring a broader content pillar for every relevant row and generating exact count maps and playbook sections for topics, content pillars, series names, proof devices, and audience jobs. Excluded rows do not affect those summaries, and semantic label normalization remains an explicit pre-build judgment rather than hidden post-processing.
+
 ### Output files accepted unsafe or over-retained content
 
 Resolved with a 12-word excerpt limit, forbidden durable transcript and credential fields, CSV formula neutralization, Markdown escaping, and atomic artifact writes.
@@ -39,9 +43,9 @@ Resolved with an explicit isolation boundary and a scanner for private paths, so
 ## Verification Evidence
 
 - Local skill validator passed.
-- 23 regression and distribution tests passed on Python 3.12.13 and 3.13.7.
+- 24 regression and distribution tests passed on Python 3.12.13 and 3.13.7.
 - The package was reproduced with identical SHA-256 output across both local runtimes.
-- The current ZIP checksum is `c4c3cda1d1c39b10761df6d22bab817d72ab37962b23e82fe24f2d6838bbe861`.
+- The current ZIP checksum is `27d167183c0bd464604f5cff994e50565c838006da917c3e66f9c196765e4df9`.
 - The extracted ZIP successfully initialized, finalized, and built an explicitly partial smoke run.
 - The public-repository audit passed across all current text files.
 - The deterministic builder and shared helper are byte-for-byte identical to the validated Mini-Me core.

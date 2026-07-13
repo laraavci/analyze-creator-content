@@ -197,6 +197,84 @@ class CreatorLibraryTests(unittest.TestCase):
         performance_report = (directory / "performance-report.md").read_text()
         self.assertIn("No timestamped visible views or plays", performance_report)
 
+    def test_summary_and_playbook_aggregate_topics_and_theme_metadata(self) -> None:
+        directory = self.initialize()
+        source_ids = ("one", "two", "three", "excluded")
+        inventory = [inventory_row(source_id) for source_id in source_ids]
+        library = []
+        for source_id in source_ids[:3]:
+            row = library_row(source_id)
+            row.update(
+                {
+                    "content_pillar": "social skills",
+                    "series_name": "Small Social Shifts",
+                }
+            )
+            library.append(row)
+        library[0].update(
+            {
+                "topic": "friendship invitations",
+                "proof_device": "personal experience",
+                "audience_job": "turn an acquaintance into a friend",
+            }
+        )
+        library[1].update(
+            {
+                "topic": "friendship invitations",
+                "proof_device": "named research",
+                "audience_job": "turn an acquaintance into a friend",
+            }
+        )
+        library[2].update(
+            {
+                "topic": "handling awkward silences",
+                "proof_device": "demonstration",
+                "audience_job": "handle awkward silences",
+            }
+        )
+        excluded = library_row("excluded", relevant=False)
+        excluded.update(
+            {
+                "exclusion_reason": "Outside the requested relevance lens.",
+                "topic": "should not count",
+                "content_pillar": "should not count",
+                "series_name": "Should Not Count",
+                "proof_device": "should not count",
+                "audience_job": "should not count",
+            }
+        )
+        library.append(excluded)
+        write_jsonl(directory / "source-inventory.jsonl", inventory)
+        write_jsonl(directory / "content-library.jsonl", library)
+        self.assertEqual(self.finalize(directory, 4).returncode, 0)
+
+        built = run_script(BUILD, "--directory", directory)
+        self.assertEqual(built.returncode, 0, built.stderr)
+        summary = json.loads((directory / "library-summary.json").read_text())
+        self.assertEqual(summary["content_pillars"], {"social skills": 3})
+        self.assertEqual(
+            summary["topics"],
+            {"friendship invitations": 2, "handling awkward silences": 1},
+        )
+        self.assertEqual(summary["series_names"], {"Small Social Shifts": 3})
+        self.assertEqual(
+            summary["proof_devices"],
+            {"demonstration": 1, "named research": 1, "personal experience": 1},
+        )
+        self.assertEqual(
+            summary["audience_jobs"],
+            {
+                "turn an acquaintance into a friend": 2,
+                "handle awkward silences": 1,
+            },
+        )
+        playbook = (directory / "pattern-playbook.md").read_text()
+        self.assertIn("## Topics", playbook)
+        self.assertIn("| friendship invitations | 2 |", playbook)
+        self.assertIn("## Series Names", playbook)
+        self.assertIn("## Proof Devices", playbook)
+        self.assertIn("## Audience Jobs", playbook)
+
     def test_performance_report_surfaces_creator_relative_breakout(self) -> None:
         directory = self.initialize()
         counts = {
@@ -459,6 +537,11 @@ class CreatorLibraryTests(unittest.TestCase):
     def test_empty_url_string_boolean_and_long_excerpt_are_rejected(self) -> None:
         cases = (
             ("empty source URL", {"source_url": ""}, "source_url must be a non-empty string"),
+            (
+                "empty content pillar",
+                {"content_pillar": ""},
+                "content_pillar must be non-empty when relevant",
+            ),
             ("string Boolean", {"is_relevant": "true"}, "is_relevant must be true or false"),
             (
                 "long excerpt",

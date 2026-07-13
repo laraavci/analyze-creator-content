@@ -63,6 +63,7 @@ Every row requires:
 For relevant rows, also provide non-empty:
 
 - `topic`
+- `content_pillar`
 - `content_type`
 - `format`
 - `hook_type`
@@ -108,3 +109,5 @@ The builder requires `source_url`, `platform`, `creator`, and `media_type` to ex
 Do not edit generated `content-library.csv`, `library-summary.json`, `pattern-playbook.md`, `performance-report.md`, or `coverage-report.md` by hand. Correct the canonical JSON/JSONL and rebuild.
 
 `library-summary.json` includes a generated `performance` object. It records accessible-video and metric coverage, the dominant comparison metric, median, breakout eligibility, top videos, and creator-relative breakout candidates. `performance-report.md` renders the same evidence with source links and interpretation limits.
+
+The summary also includes exact-match count maps for `topics`, `content_pillars`, `series_names`, `proof_devices`, and `audience_jobs`. Use consistent labels across equivalent rows; the builder deliberately does not perform semantic clustering or merge synonyms.

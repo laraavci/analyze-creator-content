@@ -14,7 +14,7 @@ Pre-release. The deterministic library tooling is covered by automated fixtures.
 - Requires an explicit inventory-completion basis before claiming complete coverage.
 - Creates one structured record for every inventoried source item or explicit exclusion.
 - Cross-checks source IDs, URLs, creator, platform, and media type.
-- Aggregates content types, formats, hook types, pillars, calls to action, and repeated script structures.
+- Aggregates exact topic frequency, broader content pillars, audience jobs, series names, proof devices, content types, formats, hook types, calls to action, and repeated script structures.
 - Promotes a repeated script pattern only after at least two source examples.
 - Validates timestamped visible metrics and ranks top accessible videos using one comparable metric.
 - Labels a creator-relative breakout candidate only with at least five comparable videos and a result at least 3x the creator median.
@@ -84,11 +84,12 @@ The command creates a reproducible `dist/analyze-creator-content.zip` plus its S
 
 ```text
 Use Analyze Creator Content on this creator: [profile URL]. Review every accessible
-video and extract content types, hooks, recurring topics, CTAs, reused script
-structures, research claims, visible performance metrics, viral or breakout video
-candidates, and a source-linked content library. Rank top videos using timestamped
-visible metrics and a creator-relative baseline; do not infer virality when metrics
-are unavailable or incomparable.
+video and extract content types, hooks, exact topic frequency, main themes,
+audience jobs, recurring series, CTAs, proof devices, reused script structures,
+research claims, visible performance metrics, viral or breakout video candidates,
+and a source-linked content library. Rank top videos using timestamped visible
+metrics and a creator-relative baseline; do not infer virality when metrics are
+unavailable or incomparable.
 ```
 
 For a fixed link set:
@@ -113,6 +114,8 @@ Each run can produce:
 - `research-audit.md`, when factual claims need verification
 
 Downloaded media and full transcripts are excluded from the canonical library. Keep them temporary by default, or outside the run directory when the user has the rights and explicitly requests retention.
+
+`library-summary.json` counts exact topic labels and broader normalized content pillars separately. Equivalent labels must be normalized during analysis because the deterministic builder does not guess that synonyms mean the same thing. `creator-brief.md` then explains the relationships and higher-level themes across those counts.
 
 ## Verify
 
