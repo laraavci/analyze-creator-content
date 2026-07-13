@@ -34,6 +34,18 @@ Pre-release. The deterministic library tooling is covered by automated fixtures.
 
 The host agent supplies authorized browsing, APIs, exports, transcription, OCR, or user-provided links. The bundled scripts validate and summarize the resulting structured records.
 
+## Before Your First Instagram Run
+
+The skill does not log in to Instagram or provide its own browser. Public supplied links may work without authentication, but full-profile enumeration, reels, captions, and visible metrics often require a signed-in session.
+
+1. Use an agent environment that can open the platform and inspect video, audio, captions, and on-screen text.
+2. Open Instagram in the browser session that the agent can actually operate.
+3. Sign in manually. Never paste a password into the prompt or provide cookies, browser storage, or session files.
+4. Invoke the skill with the creator profile URL and requested scope.
+5. If the agent reports a sign-in barrier, sign in in that same browser session, then tell the agent that sign-in is complete so it can recheck access and resume the existing run.
+
+Signing in to an unrelated browser window does not necessarily share access with the agent. If the host cannot browse or inspect the media after sign-in, provide authorized links or an export, or move the run to an agent environment with the required capabilities. The skill must report the remaining gap instead of claiming complete coverage.
+
 ## Install
 
 Clone the repository, then install the canonical skill folder for your client.
@@ -91,7 +103,9 @@ audience jobs, recurring series, CTAs, proof devices, reused script structures,
 research claims, visible performance metrics, viral or breakout video candidates,
 and a source-linked content library. Rank top videos using timestamped visible
 metrics and a creator-relative baseline; do not infer virality when metrics are
-unavailable or incomparable.
+unavailable or incomparable. If sign-in is required, pause for me to sign in
+manually in the browser session you can use, then resume after I confirm; never ask
+for credentials, cookies, browser storage, or session files.
 ```
 
 For a fixed link set:

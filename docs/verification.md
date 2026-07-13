@@ -37,3 +37,4 @@ Before the first release, test an authorized public creator with a small but non
 7. Visible performance counts include capture timestamps and one comparable metric.
 8. The performance report labels no breakout without the five-video, 3x-median rule.
 9. Topic, content-pillar, series, proof-device, and audience-job counts match the relevant source rows.
+10. When sign-in is required, the agent pauses for manual user sign-in in the host-accessible browser, rechecks access after confirmation, and never requests credentials or session material.

@@ -14,6 +14,18 @@ Prefer, in order:
 
 Do not bake undocumented endpoints, tokens, query documents, or platform response shapes into the shared skill. If a run-local acquisition helper is necessary and authorized, keep it outside this skill and document the method in `run.json`.
 
+## Manual Sign-In Checkpoint
+
+Sign-in is a user action, not a capability bundled with the skill.
+
+1. Test access in the browser or source surface the host agent can actually operate.
+2. When authentication is required, pause and ask the user to sign in manually in that same browser session.
+3. Never request or accept passwords, cookies, browser storage, session files, tokens, or copied authentication headers.
+4. After the user confirms sign-in, recheck profile access, media inspection, and pagination before resuming the existing run.
+5. Append the barrier and resolution to `run.json` `notes`. When signed-in access was used, pass `--authenticated` to `finalize_inventory.py`, record the acquisition method, and preserve any remaining barriers as coverage gaps.
+
+Do not assume that signing in to an unrelated browser window shares state with the agent. If the host lacks browsing, video, audio, or OCR capabilities, login alone cannot make the run complete; use authorized links or exports, change environments, or return an explicit partial result.
+
 ## Scope Kinds
 
 - `full-profile`: every item matching the requested profile/media/date scope

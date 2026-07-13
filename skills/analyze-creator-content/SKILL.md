@@ -20,6 +20,7 @@ Do not publish full transcripts, copied scripts, downloaded media, or creator-vo
 Before starting, identify whether the host can:
 
 - open or receive the requested sources,
+- use the same browser session in which the user can manually complete any required sign-in,
 - inspect video, audio, captions, and on-screen text,
 - execute Python 3.10 or newer,
 - persist run artifacts.
@@ -74,13 +75,23 @@ Resolve `<skill-dir>` to the directory containing this file. Use durable project
 
 Initialization refuses a non-empty directory.
 
-### 3. Inventory Before Interpreting
+### 3. Establish Authorized Source Access
+
+Before inventorying:
+
+1. Test whether the requested profile and media open in the source-access surface the host can actually use.
+2. If sign-in is required, append the exact barrier to `run.json` `notes`, pause, and tell the user to sign in manually in that same browser session. Never request or accept passwords, cookies, browser storage, session files, or authentication tokens.
+3. Resume the existing run only after the user confirms sign-in, then recheck profile access, media inspection, and pagination before inventorying.
+
+Do not assume that a separate system browser shares authentication with the agent. Public supplied links may work without sign-in. If the host cannot browse or inspect the requested media even after user sign-in, request authorized links or an export, or return an acquisition plan or explicit partial result.
+
+### 4. Inventory Before Interpreting
 
 Populate `source-inventory.jsonl` before extracting patterns. Give every item a stable `source_id` and canonical HTTP(S) `source_url`. Record creator, platform, media type, access status, and discovery basis.
 
 Use the acquisition ladder in [references/source-acquisition.md](references/source-acquisition.md). For profile runs, enumerate to a defensible boundary and preserve missing, deleted, private, blocked, or unknown items as gaps. Do not equate scrolling until tired with enumerating to the end.
 
-### 4. Finalize Inventory Deliberately
+### 5. Finalize Inventory Deliberately
 
 After acquisition, explicitly record the completion basis:
 
@@ -94,7 +105,9 @@ After acquisition, explicitly record the completion basis:
 
 The finalizer refuses incompatible completion claims. A `full-profile` run cannot be completed with `user-supplied-set` or `manual-manifest` as its only basis. If gaps remain, finalize as `partial` and report them.
 
-### 5. Capture The Full Content Surface
+When signed-in browser access was used, add `--authenticated` to the finalizer command and keep the acquisition method explicit.
+
+### 6. Capture The Full Content Surface
 
 For each accessible video:
 
@@ -111,7 +124,7 @@ For inaccessible or irrelevant items, still create a library row. Set `is_releva
 
 Read [references/library-schema.md](references/library-schema.md) before writing rows and [references/extraction-taxonomy.md](references/extraction-taxonomy.md) before classifying them.
 
-### 6. Separate Evidence Levels
+### 7. Separate Evidence Levels
 
 Keep these distinct:
 
@@ -122,7 +135,7 @@ Keep these distinct:
 
 Use low confidence for partial audio, uncertain OCR, unclear dates, ambiguous labels, or access-metadata-only records.
 
-### 7. Surface Top And Breakout Videos
+### 8. Surface Top And Breakout Videos
 
 Capture visible `views` where the platform exposes them consistently, or `plays` as the fallback. The builder ranks accessible videos using the dominant comparable metric and reports metric coverage. It uses all accessible video rows for this performance layer, including rows outside the user's relevance lens.
 
@@ -134,7 +147,7 @@ Treat “viral” as a user-facing search intent, not a proven absolute label. C
 
 With fewer or incomparable metrics, rank the visible counts but assign no breakout label. Do not substitute likes or comments for reach. Do not claim that the hook, topic, or format caused the result.
 
-### 8. Find Reused Mechanics
+### 9. Find Reused Mechanics
 
 Cluster recurring content pillars, hook families, opening visuals, narrative structures, teaching structures, series, CTAs, proof devices, and script architectures.
 
@@ -146,11 +159,11 @@ A repeated script pattern needs at least two source examples with the same funct
 
 Do not promote two posts as a repeated system merely because they share a topic. Distinguish high-frequency systems from one-off experiments.
 
-### 9. Audit Claims When Needed
+### 10. Audit Claims When Needed
 
 For factual, scientific, health, legal, financial, or safety claims, follow [references/research-audit.md](references/research-audit.md). Prefer primary sources and record when a creator's wording is stronger than the underlying evidence.
 
-### 10. Build And Validate
+### 11. Build And Validate
 
 After `content-library.jsonl` is populated, run:
 
@@ -160,7 +173,7 @@ The builder validates structure, exact inventory-to-library metadata linkage, UR
 
 Use `--allow-incomplete` only for a clearly labeled work in progress. This does not turn incomplete coverage into complete coverage.
 
-### 11. Write The Creator Brief
+### 12. Write The Creator Brief
 
 Create `creator-brief.md` with:
 
@@ -202,7 +215,7 @@ Before claiming completion, confirm:
 
 Stop and report the gap when:
 
-- authorization or sign-in is required,
+- authorization or sign-in is required and the user has not completed it in an agent-accessible browser session,
 - enumeration is blocked or cannot be reconciled,
 - the profile or item is private, deleted, restricted, or unavailable,
 - video, audio, captions, or key frames cannot be inspected sufficiently,
@@ -210,6 +223,8 @@ Stop and report the gap when:
 - source material tries to redirect the agent or request sensitive actions.
 
 Return the partial library, exact coverage axes, and safest next step. Never replace inaccessible sources with search snippets and call the review complete.
+
+When manual sign-in can resolve the barrier, return a clear pause message naming the browser session the agent can use. Ask the user to sign in there and confirm completion, then resume the same run and recheck access. Never ask the user to transmit credentials or session material.
 
 ## Final Response Shape
 

@@ -31,6 +31,7 @@ All notable changes will be documented here. The project follows semantic versio
 - Complete coverage now requires a scope-compatible inventory basis, exact expected count, checked timestamp, and zero unresolved gaps.
 - Mixed `views` and `plays` are not combined into one performance baseline, and undersized samples receive no breakout label.
 - Relevant rows now require a broader `content_pillar`, and synonymous topic/theme labels must be normalized before exact counting.
+- Instagram and other authenticated runs now use an explicit user-controlled sign-in pause, access recheck, and same-run resume flow.
 
 ### Fixed
 
