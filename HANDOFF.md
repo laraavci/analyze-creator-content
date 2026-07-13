@@ -28,4 +28,4 @@ Do not publish the first release until a live creator pilot has been run and its
 
 ## Last Verified
 
-On 2026-07-13, local validation, 17 regression and distribution tests, packaging, the public-repository audit, and an extracted-ZIP smoke run passed on Python 3.12 and 3.13. CI, cross-client model evals, and the live pilot remain external release gates.
+On 2026-07-13, local validation, 18 regression and distribution tests, packaging, the public-repository audit, and an extracted-ZIP smoke run passed on Python 3.12 and 3.13. CI, cross-client model evals, and the live pilot remain external release gates.

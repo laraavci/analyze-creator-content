@@ -6,6 +6,7 @@ from __future__ import annotations
 import py_compile
 import re
 import sys
+import tempfile
 from pathlib import Path
 
 
@@ -102,11 +103,18 @@ def main() -> None:
         if not referenced.exists():
             errors.append(f"SKILL.md reference does not exist: {target}")
 
-    for script in sorted((SKILL_DIR / "scripts").glob("*.py")):
-        try:
-            py_compile.compile(str(script), doraise=True)
-        except py_compile.PyCompileError as error:
-            errors.append(f"Python syntax error in {script.name}: {error.msg}")
+    with tempfile.TemporaryDirectory() as bytecode_directory:
+        for index, script in enumerate(
+            sorted((SKILL_DIR / "scripts").glob("*.py")), start=1
+        ):
+            try:
+                py_compile.compile(
+                    str(script),
+                    cfile=str(Path(bytecode_directory) / f"{index}.pyc"),
+                    doraise=True,
+                )
+            except py_compile.PyCompileError as error:
+                errors.append(f"Python syntax error in {script.name}: {error.msg}")
 
     metadata = SKILL_DIR / "agents" / "openai.yaml"
     if metadata.exists():

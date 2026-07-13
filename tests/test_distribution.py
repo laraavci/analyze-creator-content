@@ -35,6 +35,9 @@ class DistributionTests(unittest.TestCase):
     def test_skill_validator_and_public_audit_pass(self) -> None:
         validated = run_script(VALIDATE)
         self.assertEqual(validated.returncode, 0, validated.stderr)
+        skill_directory = ROOT / "skills" / "analyze-creator-content"
+        self.assertFalse(any(skill_directory.rglob("__pycache__")))
+        self.assertFalse(any(skill_directory.rglob("*.pyc")))
         audited = run_script(AUDIT)
         self.assertEqual(audited.returncode, 0, audited.stderr)
 

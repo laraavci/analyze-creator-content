@@ -35,7 +35,7 @@ Resolved with an explicit isolation boundary and a scanner for private paths, so
 ## Verification Evidence
 
 - Local skill validator passed.
-- 17 regression and distribution tests passed on Python 3.12.13 and 3.13.7.
+- 18 regression and distribution tests passed on Python 3.12.13 and 3.13.7.
 - The package was reproduced with identical SHA-256 output across both local runtimes.
 - The current ZIP checksum is `aea20179b4d7c487306a5633b84a5760f078c8aec7608b1d48ff23bc1487b30b`.
 - The extracted ZIP successfully initialized, finalized, and built an explicitly partial smoke run.

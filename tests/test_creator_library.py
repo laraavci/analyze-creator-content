@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -17,11 +18,14 @@ BUILD = SKILL_SCRIPTS / "build_creator_library.py"
 
 
 def run_script(script: Path, *arguments: object) -> subprocess.CompletedProcess[str]:
+    environment = os.environ.copy()
+    environment["PYTHONDONTWRITEBYTECODE"] = "1"
     return subprocess.run(
         [sys.executable, str(script), *(str(value) for value in arguments)],
         cwd=ROOT,
         text=True,
         capture_output=True,
+        env=environment,
     )
 
 
@@ -234,6 +238,28 @@ class CreatorLibraryTests(unittest.TestCase):
         self.assertFalse(summary["inventory_complete"])
         self.assertFalse(summary["overall_coverage_complete"])
         self.assertIn("inventory_status is not complete", summary["inventory_completion_reasons"])
+
+    def test_profile_count_700_with_three_rows_cannot_auto_complete(self) -> None:
+        directory = self.initialize()
+        run = json.loads((directory / "run.json").read_text(encoding="utf-8"))
+        run["profile_stated_count"] = 700
+        (directory / "run.json").write_text(
+            json.dumps(run, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        write_jsonl(
+            directory / "source-inventory.jsonl",
+            [inventory_row("one"), inventory_row("two"), inventory_row("three")],
+        )
+        write_jsonl(
+            directory / "content-library.jsonl",
+            [library_row("one"), library_row("two"), library_row("three")],
+        )
+        built = run_script(BUILD, "--directory", directory, "--allow-incomplete")
+        self.assertEqual(built.returncode, 0, built.stderr)
+        summary = json.loads((directory / "library-summary.json").read_text())
+        self.assertFalse(summary["inventory_complete"])
+        self.assertFalse(summary["overall_coverage_complete"])
 
     def test_inaccessible_source_keeps_overall_coverage_incomplete(self) -> None:
         directory = self.initialize()
