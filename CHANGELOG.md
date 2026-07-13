@@ -31,3 +31,8 @@ All notable changes will be documented here. The project follows semantic versio
 - Complete coverage now requires a scope-compatible inventory basis, exact expected count, checked timestamp, and zero unresolved gaps.
 - Mixed `views` and `plays` are not combined into one performance baseline, and undersized samples receive no breakout label.
 - Relevant rows now require a broader `content_pillar`, and synonymous topic/theme labels must be normalized before exact counting.
+
+### Fixed
+
+- Skill ZIP entries now use normalized archive-path ordering, keeping reproducible packaging consistent on Windows, macOS, and Linux.
+- The README now displays the live GitHub Actions CI badge.

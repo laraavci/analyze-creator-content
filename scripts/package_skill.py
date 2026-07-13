@@ -21,7 +21,10 @@ FIXED_TIMESTAMP = (2020, 1, 1, 0, 0, 0)
 
 def source_files() -> list[Path]:
     files: list[Path] = []
-    for path in sorted(SKILL_DIR.rglob("*")):
+    for path in sorted(
+        SKILL_DIR.rglob("*"),
+        key=lambda candidate: candidate.relative_to(SKILL_DIR).as_posix(),
+    ):
         if "__pycache__" in path.parts or path.name == ".DS_Store":
             continue
         if path.is_symlink():

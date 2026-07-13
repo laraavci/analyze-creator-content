@@ -1,5 +1,7 @@
 # Analyze Creator Content
 
+[![ci](https://github.com/laraavci/analyze-creator-content/actions/workflows/ci.yml/badge.svg)](https://github.com/laraavci/analyze-creator-content/actions/workflows/ci.yml)
+
 Analyze a creator's accessible posts or videos into an auditable, source-linked content library. The skill extracts content types, formats, hooks, recurring series, calls to action, research claims, repeated script structures, visible performance, and creator-relative breakout videos without copying full scripts or imitating the creator's voice.
 
 This repository contains one canonical [Agent Skills](https://agentskills.io/specification) folder that works with Agent Skills-compatible clients. It also includes zero-dependency Python helpers, tests, a deterministic ZIP packager, and installers for Codex and Claude Code.
