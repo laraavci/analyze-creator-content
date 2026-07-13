@@ -1,0 +1,39 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.10"
+          - os: ubuntu-latest
+            python: "3.13"
+          - os: macos-latest
+            python: "3.12"
+          - os: windows-latest
+            python: "3.12"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Validate skill
+        run: python scripts/validate_skill.py
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+      - name: Package skill
+        run: python scripts/package_skill.py
+      - name: Audit public repository
+        run: python scripts/audit_public_repo.py
+      - name: Check whitespace
+        run: git diff --check HEAD

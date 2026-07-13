@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analyze Creator Content"
+  short_description: "Build an auditable creator content library"
+  default_prompt: "Use $analyze-creator-content to inventory this creator, extract content mechanics, and build a source-linked content library."

@@ -1,0 +1,27 @@
+# Changelog
+
+All notable changes will be documented here. The project follows semantic versioning after its first tagged release.
+
+## Unreleased
+
+### Added
+
+- One canonical Agent Skills-compatible creator analysis workflow.
+- Explicit scope and inventory-completion model.
+- Source inventory, content library, coverage, and pattern schemas.
+- Zero-dependency initialization, finalization, validation, and aggregation helpers.
+- Codex, Claude Code, and generic installers with safe replacement backups.
+- Reproducible skill ZIP and SHA-256 packaging.
+- Regression tests, cross-platform CI, manual model evals, and live-pilot gate.
+
+### Security
+
+- Prompt-injection boundary for creator content.
+- Exact inventory-to-library metadata linkage.
+- CSV formula neutralization and Markdown escaping.
+- Forbidden durable transcript, credential, session, and downloaded-media fields.
+- Public-repository scan for private paths, secrets, symlinks, and media or account-data artifacts.
+
+### Changed
+
+- Complete coverage now requires a scope-compatible inventory basis, exact expected count, checked timestamp, and zero unresolved gaps.
