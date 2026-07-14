@@ -47,7 +47,7 @@ Resolved with an explicit isolation boundary and a scanner for private paths, so
 ## Verification Evidence
 
 - Local skill validator passed.
-- 24 regression and distribution tests passed on Python 3.12.13 and 3.13.7.
+- 26 regression, distribution, public-audit, and committed-example tests passed locally.
 - The package was reproduced with identical SHA-256 output across both local runtimes.
 - The current ZIP checksum is `dfc7175c3fa7aa7a9ab5f38e6bd3127843de8d5317c49af09dbd275c3102d97b`.
 - The extracted ZIP successfully initialized, finalized, and built an explicitly partial smoke run.
@@ -55,16 +55,17 @@ Resolved with an explicit isolation boundary and a scanner for private paths, so
 - The deterministic builder and shared helper are byte-for-byte identical to the validated Mini-Me core.
 - No private project or creator-specific content is present in the standalone repository.
 - The hosted CI matrix passes on Linux, macOS, and Windows across Python 3.10, 3.12, and 3.13.
+- A fresh Codex project install discovered the skill and passed a consolidated synthetic contract eval for coverage, performance, injection, imitation, and sign-in behavior.
+- A private three-reel Instagram pilot preserved two analysis-layer access gaps, correctly kept overall coverage incomplete, and made no breakout claim without comparable views or plays.
 
 ## Residual Release Gates
 
-These require external environments and remain open:
+These require external users or environments and remain open for stable promotion:
 
-1. Run the manual skill evals in a current Codex environment.
-2. Run the same evals in a current Claude Code environment.
-3. Run one authorized live creator pilot and manually inspect its acquisition basis, coverage report, performance report, retention behavior, and brief.
-4. Enable secret scanning, push protection, private vulnerability reporting, Dependabot, and branch protections where available.
+1. Run the manual skill evals in an authenticated current Claude Code environment.
+2. Complete the five-user first-run target, including three unaided completions.
+3. Promote the release only after that feedback finds no hard-gate regressions.
 
 ## Verdict
 
-The public repository is a strong pre-release candidate. No known code, performance-claim, or isolation blocker remains. It should not be tagged as a first public release until the cross-client and live-pilot gates pass.
+The public repository is suitable for a clearly labeled `v0.1.0` prerelease. No known code, performance-claim, privacy, or isolation blocker remains. Stable promotion should wait for an authenticated Claude model eval and the documented five-user first-run target.

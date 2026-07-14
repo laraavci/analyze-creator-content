@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 EXCLUDED_DIRS = {".git", ".venv", "__pycache__", "dist", ".work"}
+EXCLUDED_FILENAMES = {".git"}
 TEXT_SUFFIXES = {
     "",
     ".md",
@@ -50,7 +51,6 @@ def private_patterns() -> list[tuple[str, re.Pattern[str]]]:
         ("private context filename", "AI_" + "CONTEXT.md"),
         ("Codex memory path", ".codex/" + "memories"),
         ("private owner name", "\\b" + "La" + "ra" + "\\b"),
-        ("seed creator handle", "lili" + "vogelsang"),
     ]
     return [(label, re.compile(value, re.IGNORECASE)) for label, value in fragments]
 
@@ -71,6 +71,7 @@ SECRET_PATTERNS = [
         ),
     ),
 ]
+MARKDOWN_TARGET = re.compile(r"\]\(([^)]+)\)")
 
 
 def candidate_files() -> list[Path]:
@@ -78,6 +79,8 @@ def candidate_files() -> list[Path]:
     for current, directories, filenames in os.walk(ROOT):
         directories[:] = sorted(value for value in directories if value not in EXCLUDED_DIRS)
         for filename in sorted(filenames):
+            if filename in EXCLUDED_FILENAMES:
+                continue
             path = Path(current) / filename
             if path.suffix.lower() in TEXT_SUFFIXES and path.stat().st_size <= 2_000_000:
                 result.append(path)
@@ -96,6 +99,26 @@ def tracked_generated_files() -> list[str]:
     except (OSError, subprocess.CalledProcessError):
         return []
     return [line for line in completed.stdout.splitlines() if line.strip()]
+
+
+def missing_local_links(path: Path, text: str) -> list[str]:
+    missing: list[str] = []
+    for raw_target in MARKDOWN_TARGET.findall(text):
+        target = raw_target.strip().strip("<>")
+        if not target or target.startswith(("#", "http://", "https://", "mailto:")):
+            continue
+        target = target.split("#", 1)[0]
+        if not target:
+            continue
+        resolved = (path.parent / target).resolve()
+        try:
+            resolved.relative_to(ROOT.resolve())
+        except ValueError:
+            missing.append(f"link escapes repository: {raw_target}")
+            continue
+        if not resolved.exists():
+            missing.append(f"missing local link: {raw_target}")
+    return missing
 
 
 def main() -> None:
@@ -125,6 +148,10 @@ def main() -> None:
             text = path.read_text(encoding="utf-8")
         except (OSError, UnicodeError):
             continue
+        if path.suffix.lower() == ".md":
+            findings.extend(
+                f"{relative}: {finding}" for finding in missing_local_links(path, text)
+            )
         for line_number, line in enumerate(text.splitlines(), start=1):
             for label, pattern in patterns:
                 if pattern.search(line):

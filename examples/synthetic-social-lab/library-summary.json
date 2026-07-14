@@ -1,0 +1,177 @@
+{
+  "audience_jobs": {
+    "keep a new conversation moving": 1,
+    "make a warmer first impression": 1,
+    "recover from an awkward silence": 1,
+    "remember a new person's name": 1,
+    "turn an acquaintance into a friend": 1
+  },
+  "calls_to_action": {
+    "practice on the next three introductions": 1,
+    "save and try the invitation": 1,
+    "save one response for later": 1,
+    "share with a conversation partner": 1,
+    "share with someone starting a new room": 1
+  },
+  "content_pillars": {
+    "conversation skills": 2,
+    "first impressions": 1,
+    "relationship building": 2
+  },
+  "content_types": {
+    "behavior drill": 1,
+    "how-to demonstration": 1,
+    "how-to explainer": 1,
+    "research explainer": 2
+  },
+  "creator": "synthetic-social-lab",
+  "excluded_count": 1,
+  "extra_source_ids": [],
+  "formats": {
+    "talking head with captions": 2,
+    "talking head with text overlay": 1,
+    "two-person skit": 1,
+    "voiceover demonstration": 1
+  },
+  "hook_types": {
+    "direct challenge": 1,
+    "pain recognition": 2,
+    "research reversal": 2
+  },
+  "inventory_complete": true,
+  "inventory_completion_reasons": [],
+  "inventory_count": 6,
+  "library_count": 6,
+  "missing_source_ids": [],
+  "overall_coverage_complete": false,
+  "performance": {
+    "accessible_video_count": 5,
+    "alternate_metric_video_count": 0,
+    "breakout_baseline_eligible": true,
+    "breakout_multiple_threshold": 3.0,
+    "comparable_video_count": 5,
+    "comparison_metric": "views",
+    "creator_relative_breakout_count": 1,
+    "creator_relative_breakouts": [
+      {
+        "checked_at": "2026-07-14T09:30:00+00:00",
+        "content_type": "research explainer",
+        "creator_relative_breakout": true,
+        "hook_text": "Paraphrase: proving competence first can make connection harder.",
+        "metric": "views",
+        "multiple_of_median": 5.0,
+        "published_at": "2026-06-09",
+        "signal": "creator-relative breakout candidate",
+        "source_id": "v05",
+        "source_url": "https://example.test/videos/v05",
+        "topic": "signaling warmth before competence",
+        "visible_count": 6000
+      }
+    ],
+    "median_visible_count": 1200,
+    "metric_coverage_ratio": 1.0,
+    "minimum_breakout_sample": 5,
+    "top_videos": [
+      {
+        "checked_at": "2026-07-14T09:30:00+00:00",
+        "content_type": "research explainer",
+        "creator_relative_breakout": true,
+        "hook_text": "Paraphrase: proving competence first can make connection harder.",
+        "metric": "views",
+        "multiple_of_median": 5.0,
+        "published_at": "2026-06-09",
+        "signal": "creator-relative breakout candidate",
+        "source_id": "v05",
+        "source_url": "https://example.test/videos/v05",
+        "topic": "signaling warmth before competence",
+        "visible_count": 6000
+      },
+      {
+        "checked_at": "2026-07-14T09:30:00+00:00",
+        "content_type": "behavior drill",
+        "creator_relative_breakout": false,
+        "hook_text": "Paraphrase: repeat a name with meaning, not as a memory trick.",
+        "metric": "views",
+        "multiple_of_median": 1.08,
+        "published_at": "2026-06-07",
+        "signal": "ranked by visible metric only",
+        "source_id": "v04",
+        "source_url": "https://example.test/videos/v04",
+        "topic": "remembering names",
+        "visible_count": 1300
+      },
+      {
+        "checked_at": "2026-07-14T09:30:00+00:00",
+        "content_type": "how-to demonstration",
+        "creator_relative_breakout": false,
+        "hook_text": "Paraphrase: a pause is not proof that the conversation failed.",
+        "metric": "views",
+        "multiple_of_median": 1.0,
+        "published_at": "2026-06-05",
+        "signal": "ranked by visible metric only",
+        "source_id": "v03",
+        "source_url": "https://example.test/videos/v03",
+        "topic": "handling awkward silences",
+        "visible_count": 1200
+      },
+      {
+        "checked_at": "2026-07-14T09:30:00+00:00",
+        "content_type": "research explainer",
+        "creator_relative_breakout": false,
+        "hook_text": "Paraphrase: being interesting may matter less than showing interest.",
+        "metric": "views",
+        "multiple_of_median": 0.92,
+        "published_at": "2026-06-03",
+        "signal": "ranked by visible metric only",
+        "source_id": "v02",
+        "source_url": "https://example.test/videos/v02",
+        "topic": "asking better follow-up questions",
+        "visible_count": 1100
+      },
+      {
+        "checked_at": "2026-07-14T09:30:00+00:00",
+        "content_type": "how-to explainer",
+        "creator_relative_breakout": false,
+        "hook_text": "Paraphrase: vague plans keep promising friendships stuck as acquaintances.",
+        "metric": "views",
+        "multiple_of_median": 0.83,
+        "published_at": "2026-06-01",
+        "signal": "ranked by visible metric only",
+        "source_id": "v01",
+        "source_url": "https://example.test/videos/v01",
+        "topic": "specific friendship invitations",
+        "visible_count": 1000
+      }
+    ],
+    "videos_with_visible_view_or_play_count": 5
+  },
+  "platform": "example",
+  "proof_devices": {
+    "live demonstration": 1,
+    "named research summary": 2,
+    "side-by-side demonstration": 1,
+    "worked example": 1
+  },
+  "record_coverage_complete": true,
+  "relevant_count": 5,
+  "reused_script_patterns": {
+    "Pain point -> counterintuitive reframe -> 3-step experiment -> save CTA": 2,
+    "Research claim -> plain-language meaning -> one practice prompt -> share CTA": 2
+  },
+  "schema_version": 2,
+  "series_names": {
+    "Research You Can Try Tonight": 2,
+    "Small Social Experiments": 3
+  },
+  "source_access_complete": false,
+  "topics": {
+    "asking better follow-up questions": 1,
+    "handling awkward silences": 1,
+    "remembering names": 1,
+    "signaling warmth before competence": 1,
+    "specific friendship invitations": 1
+  },
+  "unavailable_source_ids": [
+    "v06"
+  ]
+}

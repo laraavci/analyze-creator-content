@@ -10,6 +10,8 @@ import unittest
 import zipfile
 from pathlib import Path
 
+from scripts.audit_public_repo import missing_local_links
+
 
 ROOT = Path(__file__).resolve().parents[1]
 VALIDATE = ROOT / "scripts" / "validate_skill.py"
@@ -33,6 +35,23 @@ def run_script(
 
 
 class DistributionTests(unittest.TestCase):
+    def test_public_audit_checks_outer_target_of_badge_links(self) -> None:
+        readme = ROOT / "README.md"
+        self.assertEqual(
+            missing_local_links(
+                readme,
+                "[![license](https://example.test/license.svg)](LICENSE)",
+            ),
+            [],
+        )
+        self.assertEqual(
+            missing_local_links(
+                readme,
+                "[![license](https://example.test/license.svg)](missing-license.txt)",
+            ),
+            ["missing local link: missing-license.txt"],
+        )
+
     def test_skill_validator_and_public_audit_pass(self) -> None:
         validated = run_script(VALIDATE)
         self.assertEqual(validated.returncode, 0, validated.stderr)

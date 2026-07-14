@@ -22,11 +22,13 @@ git diff --check
 
 ## Manual Skill Evals
 
-Use the prompts and scoring rules in `evals/manual-evals.md` with at least one Codex run and one Claude Code run before a tagged release.
+Use the prompts and scoring rules in `evals/manual-evals.md` with at least one Codex run and one Claude Code run before promoting a prerelease to stable.
+
+The 2026-07-14 prerelease candidate passed a fresh Codex discovery and consolidated safety/coverage contract eval. A fresh Claude Code project install succeeded, but the local Claude CLI was not authenticated, so the Claude model-level eval remains open.
 
 ## Live Pilot Gate
 
-Before the first release, test an authorized public creator with a small but non-trivial source set. Confirm manually:
+Before a release that changes acquisition or coverage behavior, test an authorized public creator with a small but non-trivial source set. Confirm manually:
 
 1. The inventory completion basis is defensible.
 2. Every accessible inventoried item has a library row.
@@ -38,3 +40,5 @@ Before the first release, test an authorized public creator with a small but non
 8. The performance report labels no breakout without the five-video, 3x-median rule.
 9. Topic, content-pillar, series, proof-device, and audience-job counts match the relevant source rows.
 10. When sign-in is required, the agent pauses for manual user sign-in in the host-accessible browser, rechecks access after confirmation, and never requests credentials or session material.
+
+The 2026-07-14 private Instagram pilot met this gate for a three-link supplied set. It deliberately remained incomplete at the source-access and overall-coverage layers because two reels did not expose enough content for analysis.

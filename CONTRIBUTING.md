@@ -2,6 +2,8 @@
 
 Thanks for helping improve Analyze Creator Content.
 
+Participation is governed by the [Code of Conduct](CODE_OF_CONDUCT.md).
+
 ## Before Opening A Pull Request
 
 1. Keep the canonical skill under `skills/analyze-creator-content/`.
@@ -15,6 +17,8 @@ python3 -m unittest discover -s tests -v
 python3 scripts/package_skill.py
 python3 scripts/audit_public_repo.py
 ```
+
+For installation or host-capability feedback, follow the [first-run test](docs/first-run-test.md) and use the dedicated issue form.
 
 ## Contribution Scope
 

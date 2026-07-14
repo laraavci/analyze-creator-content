@@ -28,8 +28,10 @@ Publish a portable, source-linked creator-content analysis skill that works acro
 
 ## Open Release Gate
 
-Do not publish the first release until a live creator pilot has been run and its coverage and performance reports have been manually inspected.
+The live-pilot gate is closed. A private authenticated three-reel Instagram pilot produced a complete supplied-link inventory and library, two explicit analysis-access gaps, and no unsupported performance label. Its coverage and performance reports were manually inspected.
+
+The first public tag should remain a pre-release until the manual Claude Code eval and broader first-user test have produced independent evidence.
 
 ## Last Verified
 
-On 2026-07-14, local validation, 24 regression and distribution tests, reproducible packaging, an extracted-ZIP execution smoke test, the public-repository audit, shared-core parity with Mini-Me, and the hosted Linux/macOS/Windows CI matrix passed. The current ZIP checksum is `dfc7175c3fa7aa7a9ab5f38e6bd3127843de8d5317c49af09dbd275c3102d97b`. Cross-client model evals and the live pilot remain external release gates.
+On 2026-07-14, local validation, 26 regression and distribution tests, the rebuilt synthetic example, reproducible packaging, an extracted-ZIP execution smoke test, the public-repository audit, shared-core parity with Mini-Me, and the hosted Linux/macOS/Windows CI matrix passed. An authenticated Instagram pilot then confirmed the sign-in checkpoint and honest partial-access reporting. Packaging remained reproducible after the launch-surface changes with SHA-256 `dfc7175c3fa7aa7a9ab5f38e6bd3127843de8d5317c49af09dbd275c3102d97b`. The manual Claude Code eval and five-user first-run target remain external evidence goals.
