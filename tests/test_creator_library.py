@@ -197,6 +197,41 @@ class CreatorLibraryTests(unittest.TestCase):
         performance_report = (directory / "performance-report.md").read_text()
         self.assertIn("No timestamped visible views or plays", performance_report)
 
+    def test_placeholder_values_are_not_promoted_as_reused_patterns(self) -> None:
+        directory = self.initialize()
+        patterns = {
+            "unknown-a": "unknown",
+            "unknown-b": " UNKNOWN ",
+            "unrecorded-a": "not recorded",
+            "unrecorded-b": "Not Recorded",
+            "real-a": "Question -> example -> invitation",
+            "real-b": "Question -> example -> invitation",
+        }
+        write_jsonl(
+            directory / "source-inventory.jsonl",
+            [inventory_row(source_id) for source_id in patterns],
+        )
+        write_jsonl(
+            directory / "content-library.jsonl",
+            [
+                library_row(source_id, pattern=pattern)
+                for source_id, pattern in patterns.items()
+            ],
+        )
+        self.assertEqual(self.finalize(directory, len(patterns)).returncode, 0)
+
+        built = run_script(BUILD, "--directory", directory)
+        self.assertEqual(built.returncode, 0, built.stderr)
+        summary = json.loads((directory / "library-summary.json").read_text())
+        self.assertEqual(
+            summary["reused_script_patterns"],
+            {"Question -> example -> invitation": 2},
+        )
+        playbook = (directory / "pattern-playbook.md").read_text()
+        self.assertNotIn("### unknown", playbook.casefold())
+        self.assertNotIn("### not recorded", playbook.casefold())
+        self.assertIn("### Question -&gt; example -&gt; invitation", playbook)
+
     def test_summary_and_playbook_aggregate_topics_and_theme_metadata(self) -> None:
         directory = self.initialize()
         source_ids = ("one", "two", "three", "excluded")
