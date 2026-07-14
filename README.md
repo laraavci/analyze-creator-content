@@ -1,6 +1,7 @@
 # Analyze Creator Content
 
 [![ci](https://github.com/laraavci/analyze-creator-content/actions/workflows/ci.yml/badge.svg)](https://github.com/laraavci/analyze-creator-content/actions/workflows/ci.yml)
+[![release](https://img.shields.io/github/v/release/laraavci/analyze-creator-content?include_prereleases)](https://github.com/laraavci/analyze-creator-content/releases/tag/v0.1.0)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-compatible-5B5BD6)](https://agentskills.io/specification)
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 

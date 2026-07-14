@@ -32,6 +32,8 @@ The live-pilot gate is closed. A private authenticated three-reel Instagram pilo
 
 The first public tag should remain a pre-release until the manual Claude Code eval and broader first-user test have produced independent evidence.
 
+`v0.1.0` is published as a GitHub prerelease with the reproducible ZIP and checksum. `main` is protected by the four CI matrix contexts, pull-request-only changes, linear history, and force-push/deletion blocks. Private vulnerability reporting, Dependabot security updates, secret scanning, and push protection are enabled.
+
 ## Last Verified
 
 On 2026-07-14, local validation, 26 regression and distribution tests, the rebuilt synthetic example, reproducible packaging, an extracted-ZIP execution smoke test, the public-repository audit, shared-core parity with Mini-Me, and the hosted Linux/macOS/Windows CI matrix passed. An authenticated Instagram pilot then confirmed the sign-in checkpoint and honest partial-access reporting. Packaging remained reproducible after the launch-surface changes with SHA-256 `dfc7175c3fa7aa7a9ab5f38e6bd3127843de8d5317c49af09dbd275c3102d97b`. The manual Claude Code eval and five-user first-run target remain external evidence goals.
