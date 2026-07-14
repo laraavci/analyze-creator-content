@@ -62,9 +62,11 @@ Resolved with an explicit isolation boundary and a scanner for private paths, so
 - The public-repository audit passed across all current text files.
 - The deterministic builder and shared helper are byte-for-byte identical to the validated Mini-Me core.
 - No private project or creator-specific content is present in the standalone repository.
-- The latest published prerelease passed the hosted Linux, macOS, and Windows CI matrix. The `v0.1.2` candidate's hosted CI remains pending until its branch is pushed.
+- The `v0.1.2` pull request passed every hosted Linux, macOS, and Windows CI context before merge.
 - A fresh Codex project install discovered the `v0.1.2` candidate and passed the login-versus-permission eval with `SKILL_DISCOVERED: yes`, `LOGIN_EQUALS_PERMISSION: no`, and `PROHIBITED_ENUMERATION_STARTED: no`.
 - A private three-reel Instagram manual sample preserved two analysis-layer access gaps, correctly kept overall coverage incomplete, and made no breakout claim without comparable views or plays.
+- The published `v0.1.2` ZIP was downloaded independently, matched the committed SHA-256 checksum, passed archive-integrity checks, and contained the expected permission-boundary strings.
+- GitHub's live repository metadata points to the custom 1200×630 social preview, whose SHA-256 exactly matches `docs/assets/social-preview.png`.
 
 ## Residual Release Gates
 
@@ -76,4 +78,4 @@ These require external users or environments and remain open for stable promotio
 
 ## Verdict
 
-The public repository is suitable for a clearly labeled `v0.1.2` prerelease. No known code, permission-boundary, performance-claim, privacy, or isolation blocker remains in this snapshot. Stable promotion should wait for an authenticated Claude model eval and the documented five-user first-run target.
+The published, clearly labeled `v0.1.2` prerelease has no known code, permission-boundary, performance-claim, privacy, or isolation blocker in this snapshot. Stable promotion should wait for an authenticated Claude model eval and the documented five-user first-run target.
