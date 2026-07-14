@@ -28,7 +28,7 @@ Publish a portable, source-linked creator-content analysis skill that works acro
 
 ## Open Release Gate
 
-The live-pilot gate is closed. A private authenticated three-reel Instagram pilot produced a complete supplied-link inventory and library, two explicit analysis-access gaps, and no unsupported performance label. Its coverage and performance reports were manually inspected.
+The live-pilot gate is closed. A private authenticated three-reel Instagram pilot used an intentionally non-exhaustive manual sample selected from the visible profile inventory. It produced complete sample inventory and record linkage, two explicit analysis-access gaps, and no unsupported performance label. Its coverage and performance reports were manually inspected.
 
 The first public tag should remain a pre-release until the manual Claude Code eval and broader first-user test have produced independent evidence.
 

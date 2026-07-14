@@ -56,7 +56,7 @@ Resolved with an explicit isolation boundary and a scanner for private paths, so
 - No private project or creator-specific content is present in the standalone repository.
 - The hosted CI matrix passes on Linux, macOS, and Windows across Python 3.10, 3.12, and 3.13.
 - A fresh Codex project install discovered the skill and passed a consolidated synthetic contract eval for coverage, performance, injection, imitation, and sign-in behavior.
-- A private three-reel Instagram pilot preserved two analysis-layer access gaps, correctly kept overall coverage incomplete, and made no breakout claim without comparable views or plays.
+- A private three-reel Instagram manual sample preserved two analysis-layer access gaps, correctly kept overall coverage incomplete, and made no breakout claim without comparable views or plays.
 
 ## Residual Release Gates
 

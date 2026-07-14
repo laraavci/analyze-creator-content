@@ -13,11 +13,11 @@ Last updated: 2026-07-14.
 | ZIP distribution | Reproducible archive, normalized ordering, extracted-archive execution smoke test | Automated pass | Platform acquisition is bundled |
 | Python helpers | Linux Python 3.10 and 3.13, macOS 3.12, Windows 3.12 | Hosted CI pass | Unsupported Python versions |
 | Synthetic example | Rebuild, topic/pattern counts, coverage gap, and 5×-median breakout | Automated pass | Real-platform performance or research claims |
-| Authenticated Instagram pilot | Three recent supplied-link reels in a signed-in Codex in-app browser | Inventory and source linkage passed; one reel was analyzable and two became explicit access gaps | Full-profile coverage, visible-view ranking, or universal Instagram support |
+| Authenticated Instagram pilot | Three recent reels manually sampled from the visible profile grid in a signed-in Codex in-app browser | Sample inventory and source linkage passed; one reel was analyzable and two became explicit access gaps | Full-profile coverage, visible-view ranking, or universal Instagram support |
 
 ## Live Pilot Result
 
-The private pilot confirmed the manual sign-in and same-session resume flow on Instagram. The browser enumerated a current profile grid and opened three exact reel URLs. One reel exposed enough visible text for a content record; two exposed only a short caption and no transcript/caption track, so the run marked them inaccessible at the analysis layer.
+The private pilot confirmed the manual sign-in and same-session resume flow on Instagram. The browser enumerated a current profile grid, the agent selected an intentionally non-exhaustive three-reel sample, and it opened those exact reel URLs. One reel exposed enough visible text for a content record; two exposed only a short caption and no transcript/caption track, so the run marked them inaccessible at the analysis layer.
 
 The generated report correctly showed a complete three-item inventory, complete record linkage, incomplete source access, incomplete overall coverage, and no breakout inference because comparable visible views or plays were unavailable. No creator-specific rows, media, transcript, credentials, cookies, tokens, or session material are stored in this public repository.
 
