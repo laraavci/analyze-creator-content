@@ -5,9 +5,9 @@
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-compatible-5B5BD6)](https://agentskills.io/specification)
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
-Turn any accessible creator profile into a source-linked content library, without pretending the agent reviewed content it could not access.
+Turn permitted creator sources into a source-linked content library, without pretending the agent reviewed content it could not access.
 
-![Analyze Creator Content turns an authorized creator profile into coverage evidence, a content library, themes, recurring patterns, and breakout signals.](docs/assets/demo-flow.svg)
+![Analyze Creator Content turns permitted creator sources into coverage evidence, a content library, themes, recurring patterns, and breakout signals.](docs/assets/demo-flow.svg)
 
 ## Install In One Command
 
@@ -15,18 +15,31 @@ Turn any accessible creator profile into a source-linked content library, withou
 npx skills add laraavci/analyze-creator-content
 ```
 
-Then give your agent a creator profile:
+Start with three to six permitted links whose analysis is allowed under the platform rules and applicable rights:
 
 ```text
-Use Analyze Creator Content on this creator: [profile URL]. Review every accessible
-video and extract content types, hooks, recurring topics, main themes, audience
-jobs, CTAs, proof devices, reused script structures, research claims, visible
-performance, breakout videos, and a source-linked content library. Prove coverage
-and name every access gap. If sign-in is required, pause for me to sign in manually
-in the browser session you can use, then resume without asking for credentials.
+Use Analyze Creator Content on these three to six permitted post URLs: [links].
+Do not expand beyond the supplied set. Build a source-linked content library and
+extract topics, main themes, hooks, formats, CTAs, proof devices, recurring
+structures, research claims, and timestamped visible performance. Preserve every
+access gap and do not infer inaccessible content.
 ```
 
-The skill works with Codex, Claude Code, and other [Agent Skills](https://agentskills.io/specification)-compatible clients. Source acquisition depends on what the host agent can access: browser, official API, connector, export, or supplied links.
+This fixed-link run gives the agent a clear denominator and is the fastest way to test whether your host can inspect the media. The skill uses the [Agent Skills](https://agentskills.io/specification) format and includes tested installation paths for Codex, Claude Code, and generic clients. Codex has an end-to-end model eval; Claude Code packaging is tested, while its manual model eval remains an open prerelease gate. Source acquisition still depends on the host and a permitted method.
+
+### Advanced: Complete-Profile Analysis
+
+Use the full-profile prompt only when current platform rules and applicable rights permit a method that can enumerate the requested scope, such as an official API, official export, or permitted connector:
+
+```text
+Use Analyze Creator Content on this creator: [profile URL]. Review every video
+that a permitted full-profile method can enumerate. Extract content types, hooks,
+recurring topics, main themes, audience jobs, CTAs, proof devices, recurring
+structures, research claims, visible performance, breakout candidates, and a
+source-linked content library. Prove the coverage denominator and name every gap.
+```
+
+Large profiles can require substantial acquisition time, media processing, and model usage. If the agent cannot prove a permitted full-profile inventory, it must downroute to a supplied set or explicit partial result instead of claiming complete coverage.
 
 ## See The Result Before Installing
 
@@ -47,7 +60,7 @@ In that example, all six items are inventoried, five are accessible, two script 
 
 - **It proves what it reviewed.** Complete coverage requires an explicit inventory basis, an exact expected count, matching source records, and zero unresolved gaps.
 - **It separates evidence from interpretation.** Source observations, analyst inference, measured counts, and externally verified research stay distinct.
-- **It finds systems, not just summaries.** Topics, themes, audience jobs, content types, formats, hooks, CTAs, proof devices, series, and repeated structures are counted across source-linked records.
+- **It finds recurring structures, not just summaries.** Topics, themes, audience jobs, content types, formats, hooks, CTAs, proof devices, series, and repeated structures are counted across source-linked records.
 - **It surfaces outliers carefully.** Breakout labels require at least five comparable videos and a visible result at least 3× the creator median.
 - **It does not clone a creator's voice.** Full transcripts, copied script collections, imitation, and inaccessible-content guessing are out of scope.
 
@@ -55,14 +68,15 @@ This is useful for creators, content strategists, agencies, researchers, and fou
 
 ## Before Your First Instagram Run
 
-The skill does not log in to Instagram or ship its own browser. Public links may work without authentication, but profile enumeration, reels, captions, and visible metrics often require a signed-in session.
+The skill does not log in to Instagram or ship its own browser. Manual sign-in provides access, not permission to automate collection. Before starting, check the current [Instagram Terms of Use](https://www.facebook.com/help/instagram/581066165581870) and [Instagram guidance on automated data collection](https://www.facebook.com/help/instagram/740480200552298?locale=en_GB), plus any applicable rights and user authority.
 
-1. Use an agent environment that can browse the platform and inspect video, audio, captions, and on-screen text.
-2. Open Instagram in the browser session the agent can actually operate.
-3. Sign in manually. Never put a password, cookie, token, browser-storage export, or session file in the prompt.
-4. Start or resume the analysis. The agent must recheck access and preserve the same run.
+1. Prefer user-supplied links, an official API or export, or a permitted connector.
+2. Confirm that the intended acquisition method and scope are allowed; do not automate profile enumeration where platform rules prohibit it.
+3. Use an agent environment that can inspect the permitted sources, including video, audio, captions, and on-screen text.
+4. If authentication is required, sign in manually in the browser session the agent can operate. Never put a password, cookie, token, browser-storage export, or session file in the prompt.
+5. Resume the same run only after the agent rechecks both permission and access.
 
-Signing in to an unrelated browser window may not share access with the agent. If the host still cannot inspect the media, provide authorized links or an export, or use another environment. The skill reports the gap instead of claiming success.
+Signing in to an unrelated browser window may not share access with the agent, and login cannot make a prohibited acquisition method compliant. If a permitted method cannot cover the requested scope, provide permitted links or an official export, use another permitted environment, or accept an explicit partial result.
 
 ## What The Run Produces
 
@@ -155,6 +169,8 @@ If this makes creator research more trustworthy or useful for you, star the repo
 ## Security, Rights, And Limits
 
 - No authentication bypasses, CAPTCHAs, private-account access, undocumented endpoint dependencies, or rate-limit circumvention.
+- No claim that manual sign-in or user authorization makes prohibited automated collection compliant.
+- Prefer supplied links, official APIs, official exports, and permitted connectors; do not enumerate profiles where platform rules prohibit it.
 - No cookie, password, browser-storage, token, or session-file handling.
 - No claim that every post was reviewed unless the coverage evidence supports it.
 - No universal-virality or causal-performance claims.

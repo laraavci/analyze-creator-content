@@ -2,6 +2,29 @@
 
 All notable changes will be documented here. The project follows semantic versioning after its first tagged release.
 
+## 0.1.2 - 2026-07-14
+
+### Added
+
+- A permission-boundary regression eval for requests that treat Instagram login as permission to scrape a full profile.
+- A deterministic documentation test covering the permission boundary and bounded first-run flow.
+
+### Changed
+
+- The recommended first run now uses three to six permitted, user-supplied links with an explicit denominator.
+- Full-profile analysis is documented as an advanced workflow that requires a permitted acquisition method and can carry substantial time, media-processing, and model cost.
+- Platform guidance now distinguishes source access from permission to automate collection and prefers official APIs, official exports, permitted connectors, or user-supplied sets.
+- Cross-client claims now distinguish tested installation and packaging from model and host acquisition evidence.
+- The social-preview asset now says `Recurring structures`, `Permitted sources only`, and `Sign-in is access only`.
+- Release evidence is version-specific and records the current 28-test suite and package checksum.
+
+## 0.1.1 - 2026-07-14
+
+### Fixed
+
+- Placeholder labels such as `unknown` are no longer promoted as recurring patterns in generated playbooks.
+- The release badge continues to surface prerelease versions.
+
 ## 0.1.0 - 2026-07-14
 
 ### Added

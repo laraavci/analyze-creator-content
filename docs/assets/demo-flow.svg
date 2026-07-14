@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
   <title id="title">Analyze Creator Content workflow</title>
-  <desc id="description">A creator profile moves through authorized access and verified coverage into a content library, theme map, recurring pattern playbook, and breakout report.</desc>
+  <desc id="description">Permitted creator sources move through verified coverage into a content library, theme map, recurring pattern playbook, and breakout report.</desc>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#111827"/>
@@ -27,11 +27,11 @@
     <circle cx="102" cy="199" r="8" fill="#a78bfa"/>
     <circle cx="128" cy="199" r="8" fill="#c4b5fd"/>
     <circle cx="154" cy="199" r="8" fill="#ddd6fe"/>
-    <text x="98" y="270" fill="#111827" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="700">1 · CREATOR PROFILE</text>
+    <text x="98" y="270" fill="#111827" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="700">1 · SUPPLIED LINK SET</text>
     <rect x="98" y="294" width="224" height="46" rx="11" fill="#f3f4f6"/>
-    <text x="117" y="323" fill="#4b5563" font-family="ui-monospace, SFMono-Regular, monospace" font-size="14">profile.example/creator</text>
-    <text x="98" y="382" fill="#6b7280" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="15">Authorized sources only</text>
-    <text x="98" y="411" fill="#6b7280" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="15">Manual sign-in if needed</text>
+    <text x="117" y="323" fill="#4b5563" font-family="ui-monospace, SFMono-Regular, monospace" font-size="14">3–6 permitted links</text>
+    <text x="98" y="382" fill="#6b7280" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="15">Permitted sources only</text>
+    <text x="98" y="411" fill="#6b7280" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="15">Sign-in is access only</text>
     <rect x="98" y="432" width="145" height="5" rx="2.5" fill="url(#accent)"/>
   </g>
 
@@ -62,7 +62,7 @@
       <rect x="865" y="289" width="235" height="49" rx="12" fill="#ecfeff"/>
       <text x="883" y="319" fill="#155e75" font-size="15" font-weight="650">◎ Topics + main themes</text>
       <rect x="865" y="350" width="235" height="49" rx="12" fill="#f0fdf4"/>
-      <text x="883" y="380" fill="#166534" font-size="15" font-weight="650">↻ Reused script systems</text>
+      <text x="883" y="380" fill="#166534" font-size="15" font-weight="650">↻ Recurring structures</text>
       <rect x="865" y="411" width="235" height="49" rx="12" fill="#fff7ed"/>
       <text x="883" y="441" fill="#9a3412" font-size="15" font-weight="650">↗ Breakout video signals</text>
     </g>

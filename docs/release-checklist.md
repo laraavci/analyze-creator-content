@@ -24,6 +24,7 @@
 - [x] Breakout ranking, small-sample, mixed-metric, and missing-metric evals remain hard-gate passes.
 - [x] Topic/theme aggregation excludes irrelevant rows and uses normalized exact labels.
 - [x] The manual sign-in eval pauses in the agent-accessible browser, resumes after confirmation, and never requests credentials or session material.
+- [x] The login-versus-permission eval refuses prohibited enumeration and downroutes to permitted acquisition methods.
 
 ## GitHub Repository Settings
 
@@ -38,13 +39,14 @@
 
 ## Release
 
-- [x] Version and changelog or release notes describe behavior changes and limitations.
-- [x] A clean `main` checkout passes all required verification.
-- [x] The reproducible ZIP and `.sha256` file are attached to the GitHub release.
-- [x] The `v0.1.0` tag uses semantic versioning and is marked as a prerelease.
-- [x] The release notes repeat that source acquisition is host-dependent and authorization-bound.
-- [x] The downloaded release checksum, archive integrity, initialization, and public Agent Skills discovery are smoke-tested.
+- [x] The `v0.1.2` changelog describes behavior changes and limitations.
+- [ ] The `v0.1.2` commit passes every required hosted CI context on `main`.
+- [ ] The reproducible ZIP and `.sha256` file are attached to the `v0.1.2` GitHub prerelease.
+- [ ] The `v0.1.2` tag uses semantic versioning and is marked as a prerelease.
+- [ ] The `v0.1.2` release notes repeat that source acquisition is host-dependent and permission-bound.
+- [ ] The downloaded `v0.1.2` checksum, archive integrity, initialization, and public Agent Skills discovery are smoke-tested.
+- [ ] The repository social preview uses `docs/assets/social-preview.png`.
 
 ## Claims Gate
 
-Do not market the skill as scraping every platform, guaranteeing full-profile access, or proving universal virality. State that it analyzes authorized, accessible sources and proves the limits of each run through explicit coverage and performance evidence.
+Do not market the skill as scraping every platform, guaranteeing full-profile access, or proving universal virality. State that it analyzes permitted, accessible sources and proves the limits of each run through explicit coverage and performance evidence. Manual sign-in is access, not permission to automate collection.
