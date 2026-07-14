@@ -103,6 +103,22 @@ VISIBLE_COUNT_FIELDS = ("views", "plays", "likes", "comments", "shares", "saves"
 VIDEO_MEDIA_TYPES = {"video", "reel", "short", "shorts", "live", "livestream"}
 MIN_BREAKOUT_SAMPLE = 5
 BREAKOUT_MULTIPLE = 3.0
+SCRIPT_PATTERN_PLACEHOLDERS = {
+    "n/a",
+    "no discernible pattern",
+    "no pattern identified",
+    "none",
+    "not applicable",
+    "not recorded",
+    "unknown",
+}
+
+
+def reusable_script_pattern(value: Any) -> str:
+    pattern = str(value or "").strip()
+    if pattern.casefold() in SCRIPT_PATTERN_PLACEHOLDERS:
+        return ""
+    return pattern
 
 
 def validate_library(records: list[dict[str, Any]]) -> list[str]:
@@ -486,7 +502,7 @@ def build_pattern_playbook(records: list[dict[str, Any]]) -> str:
 
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for record in relevant:
-        pattern = str(record.get("reusable_script_pattern", "")).strip()
+        pattern = reusable_script_pattern(record.get("reusable_script_pattern"))
         if pattern:
             grouped[pattern].append(record)
 
@@ -668,7 +684,11 @@ def main() -> None:
         "reused_script_patterns": {
             pattern: count
             for pattern, count in sorted_counts(
-                relevant, "reusable_script_pattern"
+                [
+                    {"pattern": reusable_script_pattern(record.get("reusable_script_pattern"))}
+                    for record in relevant
+                ],
+                "pattern",
             ).items()
             if count >= 2
         },
