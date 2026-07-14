@@ -85,7 +85,7 @@ Downloaded media and full transcripts stay out of the durable library. Equivalen
 | Surface | Verified | Remaining host-dependent work |
 |---|---|---|
 | Agent Skills CLI | Repository discovery and one-command install listing | Client-specific browsing and media inspection |
-| Codex | Skill validation, installer paths, packaged execution, deterministic outputs, and one authenticated three-reel Instagram pilot | Live completeness still depends on the available browser, transcription, and OCR capabilities |
+| Codex | Skill validation, installer paths, packaged execution, deterministic outputs, and one authenticated three-reel Instagram manual-sample pilot | Live completeness still depends on the available browser, transcription, and OCR capabilities |
 | Claude Code | Canonical skill package and installer paths | Manual model eval and live acquisition still require a capable host |
 | Generic Agent Skills client | Portable skill folder, generic installer, and reproducible ZIP | Invocation and source tooling vary by client |
 | CI | Python 3.10–3.13 across Linux, macOS, and Windows | Live social-platform access is intentionally not automated in CI |
