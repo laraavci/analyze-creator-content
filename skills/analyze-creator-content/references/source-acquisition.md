@@ -1,30 +1,37 @@
 # Source Acquisition And Coverage
 
-This skill does not include a platform scraper. Source acquisition belongs to the host environment because access methods, authorization, browser state, APIs, exports, and platform rules vary and change.
+This skill does not include a platform scraper. Source acquisition belongs to the host environment because permission, access methods, browser state, APIs, exports, and platform rules vary and change.
+
+## Permission Boundary
+
+Manual sign-in provides access, not permission to automate collection. Before inventorying, verify that current platform terms, applicable rights, and the user's authority permit the intended method and scope. Do not automate profile enumeration where platform rules prohibit it. The skill cannot make an otherwise prohibited acquisition method compliant.
+
+For Instagram, check the current [Instagram Terms of Use](https://www.facebook.com/help/instagram/581066165581870) and [Instagram guidance on automated data collection](https://www.facebook.com/help/instagram/740480200552298?locale=en_GB) before choosing a method. These links are examples, not a substitute for checking the rules of each source platform at run time.
 
 ## Acquisition Ladder
 
 Prefer, in order:
 
-1. User-provided links or authorized exports
-2. Purpose-built connector or official API
-3. Platform-native profile inventory or search
-4. Visible authorized browser access when signed-in state is required
-5. An explicit partial inventory and gap list when enumeration stops
+1. User-supplied links that may be analyzed under the platform rules and applicable rights
+2. Official exports
+3. Official APIs
+4. Permitted purpose-built connectors
+5. Platform-native inventory or visible browser access only where the intended collection method is permitted
+6. An explicit partial inventory and gap list when a permitted method cannot cover the requested scope
 
-Do not bake undocumented endpoints, tokens, query documents, or platform response shapes into the shared skill. If a run-local acquisition helper is necessary and authorized, keep it outside this skill and document the method in `run.json`.
+Do not bake undocumented endpoints, tokens, query documents, or platform response shapes into the shared skill. If a run-local acquisition helper is necessary, use it only when the method is permitted, keep it outside this skill, and document the method in `run.json`.
 
 ## Manual Sign-In Checkpoint
 
-Sign-in is a user action, not a capability bundled with the skill.
+Sign-in is a user action, not a capability bundled with the skill, and not permission to automate collection.
 
 1. Test access in the browser or source surface the host agent can actually operate.
 2. When authentication is required, pause and ask the user to sign in manually in that same browser session.
 3. Never request or accept passwords, cookies, browser storage, session files, tokens, or copied authentication headers.
-4. After the user confirms sign-in, recheck profile access, media inspection, and pagination before resuming the existing run.
+4. After the user confirms sign-in, recheck platform permission, profile access, media inspection, and pagination before resuming the existing run.
 5. Append the barrier and resolution to `run.json` `notes`. When signed-in access was used, pass `--authenticated` to `finalize_inventory.py`, record the acquisition method, and preserve any remaining barriers as coverage gaps.
 
-Do not assume that signing in to an unrelated browser window shares state with the agent. If the host lacks browsing, video, audio, or OCR capabilities, login alone cannot make the run complete; use authorized links or exports, change environments, or return an explicit partial result.
+Do not assume that signing in to an unrelated browser window shares state with the agent. Login alone cannot make a prohibited method compliant or make an incomplete run complete. If the host lacks a permitted acquisition route or browsing, video, audio, or OCR capabilities, use permitted supplied links, an official API or export, a permitted connector, another environment, or an explicit partial result.
 
 ## Scope Kinds
 
@@ -46,7 +53,7 @@ The inventory finalizer recognizes:
 - `user-supplied-set`
 - `manual-manifest`
 
-A complete `full-profile` inventory requires an authoritative or end-enumerated basis. `user-supplied-set` and `manual-manifest` are not sufficient for full-profile completion.
+A complete `full-profile` inventory requires an authoritative or end-enumerated basis acquired through a permitted method. `user-supplied-set` and `manual-manifest` are not sufficient for full-profile completion.
 
 `known-count-reconciled` requires the expected in-scope count to equal the recorded profile-stated count. Use it only when the visible count refers to the same media and date scope.
 

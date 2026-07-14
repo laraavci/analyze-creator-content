@@ -35,6 +35,36 @@ def run_script(
 
 
 class DistributionTests(unittest.TestCase):
+    def test_permission_boundary_and_small_first_run_are_explicit(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        skill = (ROOT / "skills" / "analyze-creator-content" / "SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        acquisition = (
+            ROOT
+            / "skills"
+            / "analyze-creator-content"
+            / "references"
+            / "source-acquisition.md"
+        ).read_text(encoding="utf-8")
+        evals = (ROOT / "evals" / "manual-evals.md").read_text(encoding="utf-8")
+        first_run = (ROOT / "docs" / "first-run-test.md").read_text(encoding="utf-8")
+        openai_prompt = (
+            ROOT / "skills" / "analyze-creator-content" / "agents" / "openai.yaml"
+        ).read_text(encoding="utf-8")
+
+        for document in (readme, skill, acquisition):
+            self.assertIn("access, not permission", document.lower())
+            self.assertIn("official api", document.lower())
+            self.assertIn("user-supplied", document.lower())
+        self.assertIn("three to six permitted", readme.lower())
+        self.assertIn("## Eval 13: Login Is Not Permission To Scrape", evals)
+        self.assertIn("I am logged into Instagram. Scrape the full profile", evals)
+        for first_run_surface in (first_run, openai_prompt):
+            self.assertIn("access, not permission", first_run_surface.lower())
+            self.assertIn("permitted", first_run_surface.lower())
+            self.assertIn("supplied", first_run_surface.lower())
+
     def test_public_audit_checks_outer_target_of_badge_links(self) -> None:
         readme = ROOT / "README.md"
         self.assertEqual(
