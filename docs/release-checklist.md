@@ -27,23 +27,23 @@
 
 ## GitHub Repository Settings
 
-- [ ] Repository description and topics are accurate and do not overclaim platform access.
-- [ ] Default branch is `main`.
-- [ ] Pull requests require the CI workflow to pass.
-- [ ] Secret scanning and push protection are enabled when available.
-- [ ] Private vulnerability reporting is enabled.
-- [ ] Dependabot alerts and GitHub Actions updates are enabled.
-- [ ] GitHub Actions default token permissions remain read-only.
-- [ ] Branch deletion, force-push, and required-review settings match the contributor model.
+- [x] Repository description and topics are accurate and do not overclaim platform access.
+- [x] Default branch is `main`.
+- [x] Pull requests require the CI workflow to pass.
+- [x] Secret scanning and push protection are enabled when available.
+- [x] Private vulnerability reporting is enabled.
+- [x] Dependabot alerts, security updates, and GitHub Actions updates are enabled.
+- [x] GitHub Actions default token permissions remain read-only.
+- [x] Automatic merged-head deletion, squash-only merges, linear history, protected-main force-push/deletion blocks, and zero required approvals match the single-maintainer contributor model.
 
 ## Release
 
 - [x] Version and changelog or release notes describe behavior changes and limitations.
-- [ ] A clean checkout passes all required verification.
-- [ ] The reproducible ZIP and `.sha256` file are attached to the GitHub release.
-- [ ] The tag uses semantic versioning.
-- [ ] The release notes repeat that source acquisition is host-dependent and authorization-bound.
-- [ ] Installation is smoke-tested from the published tag or archive, not only the working tree.
+- [x] A clean `main` checkout passes all required verification.
+- [x] The reproducible ZIP and `.sha256` file are attached to the GitHub release.
+- [x] The `v0.1.0` tag uses semantic versioning and is marked as a prerelease.
+- [x] The release notes repeat that source acquisition is host-dependent and authorization-bound.
+- [x] The downloaded release checksum, archive integrity, initialization, and public Agent Skills discovery are smoke-tested.
 
 ## Claims Gate
 

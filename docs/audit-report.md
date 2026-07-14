@@ -68,4 +68,4 @@ These require external users or environments and remain open for stable promotio
 
 ## Verdict
 
-The public repository is suitable for a clearly labeled `v0.1.0` prerelease. No known code, performance-claim, privacy, or isolation blocker remains. Stable promotion should wait for an authenticated Claude model eval and the documented five-user first-run target.
+The public repository is suitable for the published, clearly labeled `v0.1.0` prerelease. No known code, performance-claim, privacy, or isolation blocker remains. Stable promotion should wait for an authenticated Claude model eval and the documented five-user first-run target.
