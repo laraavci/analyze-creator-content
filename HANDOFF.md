@@ -32,18 +32,16 @@ The live-pilot gate is closed. A private authenticated three-reel Instagram pilo
 
 The release remains a prerelease until the manual Claude Code eval and broader first-user test produce independent evidence. The stable gate is five independent testers, including three unaided completions, with no hard-gate regression.
 
-`v0.1.2` is the current release target. `main` is protected by the four CI matrix contexts, pull-request-only changes, linear history, and force-push/deletion blocks. Private vulnerability reporting, Dependabot security updates, secret scanning, and push protection are enabled.
+`v0.1.2` is the current published prerelease. `main` is protected by the four CI matrix contexts, pull-request-only changes, linear history, and force-push/deletion blocks. Private vulnerability reporting, Dependabot security updates, secret scanning, and push protection are enabled.
 
 ## Last Verified
 
-On 2026-07-14, local validation, 28 regression and distribution tests, the rebuilt synthetic example, reproducible packaging, an extracted-ZIP execution smoke test, and the public-repository audit passed for the `v0.1.2` candidate. The candidate ZIP has SHA-256 `7ca3b22f75fd21346f4c2ffb67e8589668dcf83bbaa2f3430c2fcad5beb108d1`. Hosted CI and published-release verification must be recorded after merge and release creation.
+On 2026-07-14, local validation, 28 regression and distribution tests, the rebuilt synthetic example, reproducible packaging, an extracted-ZIP execution smoke test, the public-repository audit, and every hosted Linux/macOS/Windows CI context passed for `v0.1.2`. The downloaded release ZIP matched SHA-256 `7ca3b22f75fd21346f4c2ffb67e8589668dcf83bbaa2f3430c2fcad5beb108d1`, passed archive-integrity checks, and contained the expected permission boundary and bounded default prompt. The live GitHub `og:image` is 1200×630 and exactly matches the committed social-preview source at SHA-256 `bdc03cd89013a9051dade061c6b214daf908d762b6bcec9b82554786202dd459`.
 
 ## Next Best Actions
 
-1. Merge the focused `v0.1.2` permission and launch-surface patch after all required CI contexts pass.
-2. Publish and verify the prerelease ZIP and checksum, then set the repository social preview from `docs/assets/social-preview.png`.
-3. Invite public testing with the Synthetic Social Lab example and the three-to-six-link first run.
-4. Collect the Claude Code eval and five-user first-run evidence before stable promotion.
+1. Invite public testing with the Synthetic Social Lab example and the three-to-six-link first run.
+2. Collect the Claude Code eval and five-user first-run evidence before stable promotion.
 
 ## Key Files To Read
 

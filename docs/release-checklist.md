@@ -40,12 +40,12 @@
 ## Release
 
 - [x] The `v0.1.2` changelog describes behavior changes and limitations.
-- [ ] The `v0.1.2` commit passes every required hosted CI context on `main`.
-- [ ] The reproducible ZIP and `.sha256` file are attached to the `v0.1.2` GitHub prerelease.
-- [ ] The `v0.1.2` tag uses semantic versioning and is marked as a prerelease.
-- [ ] The `v0.1.2` release notes repeat that source acquisition is host-dependent and permission-bound.
-- [ ] The downloaded `v0.1.2` checksum, archive integrity, initialization, and public Agent Skills discovery are smoke-tested.
-- [ ] The repository social preview uses `docs/assets/social-preview.png`.
+- [x] The `v0.1.2` commit passes every required hosted CI context on `main`.
+- [x] The reproducible ZIP and `.sha256` file are attached to the `v0.1.2` GitHub prerelease.
+- [x] The `v0.1.2` tag uses semantic versioning and is marked as a prerelease.
+- [x] The `v0.1.2` release notes repeat that source acquisition is host-dependent and permission-bound.
+- [x] The downloaded `v0.1.2` checksum, archive integrity, initialization, and public Agent Skills discovery are smoke-tested.
+- [x] The repository social preview uses `docs/assets/social-preview.png`, verified through the live `og:image` URL and exact SHA-256 equality.
 
 ## Claims Gate
 
