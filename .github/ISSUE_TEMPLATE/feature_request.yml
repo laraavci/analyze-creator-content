@@ -1,0 +1,37 @@
+name: Feature request
+description: Propose a scoped improvement to the portable, auditable workflow.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: What becomes difficult, unsafe, or unverifiable today?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe the behavior, not only a proposed implementation.
+    validations:
+      required: true
+  - type: input
+    id: clients
+    attributes:
+      label: Relevant clients or platforms
+      placeholder: Codex, Claude Code, Instagram, YouTube, supplied links...
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Synthetic example or evidence
+      description: Do not attach creator media, private data, credentials, sessions, or full transcripts.
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Project boundaries
+      options:
+        - label: This does not require authentication bypass, undocumented endpoint coupling, creator imitation, or inaccessible-content inference.
+          required: true

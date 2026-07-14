@@ -1,0 +1,75 @@
+name: First-run feedback
+description: Tell us where installation or the first analysis felt unclear.
+title: "[First run]: "
+labels:
+  - feedback
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for testing. Use redacted or synthetic evidence only. See docs/first-run-test.md for the intended flow.
+  - type: input
+    id: client
+    attributes:
+      label: Client and version
+      placeholder: Codex, Claude Code, another Agent Skills client...
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: Install method
+      options:
+        - npx skills add
+        - Repository installer
+        - Downloadable ZIP
+        - Manual copy
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: time
+    attributes:
+      label: Approximate time to discovery
+      placeholder: 90 seconds
+  - type: input
+    id: source
+    attributes:
+      label: Source platform and scope
+      placeholder: Instagram supplied links, YouTube sample, synthetic example...
+    validations:
+      required: true
+  - type: checkboxes
+    id: outputs
+    attributes:
+      label: Outputs created
+      options:
+        - label: Source inventory and content library
+        - label: Creator brief or topic/theme summary
+        - label: Pattern playbook
+        - label: Performance report
+        - label: Coverage report
+  - type: textarea
+    id: friction
+    attributes:
+      label: First confusing or broken step
+    validations:
+      required: true
+  - type: textarea
+    id: coverage
+    attributes:
+      label: Did the coverage report match actual access?
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Data safety
+      options:
+        - label: I removed credentials, session material, private data, full transcripts, and creator media.
+          required: true

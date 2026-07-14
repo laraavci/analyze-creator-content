@@ -1,0 +1,25 @@
+{
+  "acquisition_methods": [
+    "synthetic browser inventory"
+  ],
+  "authenticated": false,
+  "created_at": "2026-07-14T09:00:00+00:00",
+  "creator": "synthetic-social-lab",
+  "creator_slug": "synthetic-social-lab",
+  "expected_item_count": 6,
+  "inventory_checked_at": "2026-07-14T09:30:00+00:00",
+  "inventory_completion_basis": "platform-enumerated-to-end",
+  "inventory_status": "complete",
+  "notes": [
+    "Synthetic demonstration data; no real creator or account is represented."
+  ],
+  "platform": "example",
+  "profile_stated_count": 6,
+  "profile_url": "https://example.test/synthetic-social-lab",
+  "relevance_lens": "practical social skills and relationship building",
+  "requested_scope": "every synthetic video on the profile",
+  "schema_version": 2,
+  "scope_kind": "full-profile",
+  "unresolved_gap_count": 0,
+  "updated_at": "2026-07-14T09:30:00+00:00"
+}

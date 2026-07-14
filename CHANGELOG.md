@@ -2,7 +2,7 @@
 
 All notable changes will be documented here. The project follows semantic versioning after its first tagged release.
 
-## Unreleased
+## 0.1.0 - 2026-07-14
 
 ### Added
 
@@ -16,6 +16,9 @@ All notable changes will be documented here. The project follows semantic versio
 - Timestamped visible-metric validation, top-video ranking, and a source-linked performance report.
 - Creator-relative breakout detection with a five-video minimum and 3x-median threshold.
 - Deterministic topic, content-pillar, series, proof-device, and audience-job summaries.
+- A safe synthetic creator example with a source-linked library, theme counts, repeated script structures, one creator-relative breakout, and an explicit access gap.
+- Outcome-first one-command installation, a visual workflow overview, a dated compatibility matrix, and a first-user test flow.
+- GitHub issue forms, pull-request template, code of conduct, and a social-preview asset.
 
 ### Security
 
@@ -37,3 +40,7 @@ All notable changes will be documented here. The project follows semantic versio
 
 - Skill ZIP entries now use normalized archive-path ordering, keeping reproducible packaging consistent on Windows, macOS, and Linux.
 - The README now displays the live GitHub Actions CI badge.
+- The public-repository audit now ignores the Git worktree `.git` pointer file while continuing to scan public artifacts.
+- The public-repository audit now verifies local Markdown link targets and no longer carries a creator-specific seed fingerprint.
+- Committed example checks now normalize text newlines across operating systems, and badge-wrapped local links are included in the public audit.
+- CI now uses the current major versions of the official checkout and setup-python actions.

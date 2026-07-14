@@ -1,0 +1,63 @@
+name: Bug report
+description: Report a reproducible problem using synthetic or redacted evidence.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Do not include credentials, cookies, session files, private creator data, full transcripts, or copyrighted media.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: v0.1.0 or commit SHA
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Client and operating system
+      placeholder: Codex on macOS 15, Claude Code on Windows 11, generic client...
+    validations:
+      required: true
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Where did it fail?
+      options:
+        - Install or discovery
+        - Source acquisition or sign-in checkpoint
+        - Inventory finalization
+        - Library validation or build
+        - Generated report
+        - Packaging or distribution
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Prefer the synthetic example or redacted URLs and records.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Data safety
+      options:
+        - label: I removed credentials, session material, private data, full transcripts, and creator media.
+          required: true
